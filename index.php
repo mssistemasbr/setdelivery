@@ -1,5 +1,6 @@
 <?php
 $idCliente = 0;
+echo $teste;
 
 include './painel/config/crud.php';
 include './painel/controle/formaPagamentoControle.php';
