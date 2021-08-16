@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+var estagioPedido = 0;
 
 $(document).ready(function ($) {
     var myCarousel = document.querySelector('#carouselExampleControls');
@@ -11,14 +12,36 @@ $(document).ready(function ($) {
         pause: false
     });
 
+    if (estagioPedido === 0) {
+        $('.carousel-control-prev').html("Cancelar");
+    }
+
     $('.carousel-control-prev').click(function () {
-        alert("prev");
-        carousel('prev');
+        if (estagioPedido === 0) {
+
+        } else {
+            estagioPedido--;
+            if (estagioPedido === 0) {
+                $('.carousel-control-prev').html("Cancelar");
+            }
+            $('.carousel').carousel('prev');
+            $('.carousel-control-next').html("Avançar");
+        }
     });
 
     $('.carousel-control-next').click(function () {
-        alert("next");
-        carousel('next');
+        if (estagioPedido === 0) {
+            validaTipoPizza();
+        } else if (estagioPedido === 1) {
+            validaTamanhoPizza();
+        } else if (estagioPedido === 2) {
+            validaProdutoPizza();
+        } else if (estagioPedido === 3) {
+            validaProdutoBorda();
+        } else if (estagioPedido === 4) {
+            validaProdutoAcrescimo();
+            $('.carousel-control-next').html("Finalizar");
+        }
     });
 
     //Enviar formulario para novo cadastro
@@ -68,6 +91,82 @@ $(document).ready(function ($) {
 
 });
 
+function validaTipoPizza() {
+    if ($("input[type='radio'][name='rdTipoPiza'").is(":checked")) {
+        $.each($("input[type='radio'][name='rdTipoPiza'"), function (id, val) {
+            if ($(val).is(":checked")) {
+                alert($(this).attr('value'));
+                $('.carousel').carousel('next');
+                estagioPedido++;
+                $('.carousel-control-prev').html("Voltar");
+            }
+        });
+    } else {
+        alert("Escolha um tipo pizza.");
+        return;
+    }
+}
+
+function validaTamanhoPizza() {
+    if ($("input[type='radio'][name='rdTamanhoPizza'").is(":checked")) {
+        $.each($("input[type='radio'][name='rdTamanhoPizza'"), function (id, val) {
+            if ($(val).is(":checked")) {
+                alert($(this).attr('value'));
+                $('.carousel').carousel('next');
+                estagioPedido++;
+            }
+        });
+    } else {
+        alert("Escolha um tamanho pizza.");
+        return;
+    }
+}
+
+function validaProdutoPizza() {
+    if ($("input[type='radio'][name='rdProdutoPizza'").is(":checked")) {
+        $.each($("input[type='radio'][name='rdProdutoPizza'"), function (id, val) {
+            if ($(val).is(":checked")) {
+                alert($(this).attr('value'));
+                $('.carousel').carousel('next');
+                estagioPedido++;
+            }
+        });
+    } else {
+        alert("Escolha uma pizza.");
+        return;
+    }
+}
+
+function validaProdutoBorda() {
+    if ($("input[type='radio'][name='rdProdutoBorda'").is(":checked")) {
+        $.each($("input[type='radio'][name='rdProdutoBorda'"), function (id, val) {
+            if ($(val).is(":checked")) {
+                alert($(this).attr('value'));
+                $('.carousel').carousel('next');
+                estagioPedido++;
+            }
+        });
+    } else {
+        alert("Escolha uma borda.");
+        return;
+    }
+}
+
+function validaProdutoAcrescimo() {
+    if ($("input[type='radio'][name='rdProdutoAcrescimo'").is(":checked")) {
+        $.each($("input[type='radio'][name='rdProdutoAcrescimo'"), function (id, val) {
+            if ($(val).is(":checked")) {
+                alert($(this).attr('value'));
+                $('.carousel').carousel('next');
+                estagioPedido++;
+            }
+        });
+    } else {
+        alert("Escolha um Acrescimo.");
+        return;
+    }
+}
+
 function validaCamposCad() {
     $('#modalAlertCadastrar').modal("show");
 
@@ -103,5 +202,3 @@ function msgError(msg) {
     $('#msg-error').fadeIn('slow');
     $('#msg-error').fadeOut(5000, "linear");
 }
-
-

@@ -8,7 +8,7 @@ class TipoProdutoControle extends Crud {
         $this->tipoProdutoModelo = $tipoProdutoModelo;
 
         try {
-            if ($this->tipoProdutoModelo->getId() ==0):
+            if ($this->tipoProdutoModelo->getId() == 0):
                 $id = parent::inserir("tipo_produto", "id_tipo_produto,descricao,ativo,data_cadastro,hora_cadastro,tipo_cadastro",
                                 $this->tipoProdutoModelo->getId() . "|" .
                                 $this->tipoProdutoModelo->getDescricao() . "|" .
@@ -44,6 +44,15 @@ class TipoProdutoControle extends Crud {
     public function buscarTodosTipoProduto() {
         try {
             $sql = parent::selecionar("tipo_produto", "id_tipo_produto,descricao,ativo", "1 = 1");
+            return($sql);
+        } catch (Exception $e) {
+            print($e->getMessage());
+        }
+    }
+
+    public function buscarTodosTipoProdutoCategoria($categoria) {
+        try {
+            $sql = parent::selecionar("tipo_produto", "id_tipo_produto,descricao,subdescricao,ativo", "tipo_produto ='" . $categoria . "'");
             return($sql);
         } catch (Exception $e) {
             print($e->getMessage());

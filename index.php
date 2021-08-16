@@ -1,6 +1,5 @@
 <?php
 $idCliente = 0;
-echo $teste;
 
 include './painel/config/crud.php';
 include './painel/controle/formaPagamentoControle.php';
@@ -8,6 +7,9 @@ include './painel/controle/localEntregaControle.php';
 include './painel/controle/horarioFuncionamentoControle.php';
 include './painel/controle/empresaControle.php';
 include './painel/controle/tipoPizzaControle.php';
+include './painel/controle/tipoProdutoControle.php';
+include './painel/controle/tamanhoPizzaControle.php';
+include './painel/controle/produtoControle.php';
 
 // Forma de Pagamento
 $formaPagamento = new FormaPagamentoControle();
@@ -21,7 +23,6 @@ $sqlLocal = json_decode($localEntrega->buscarTodosLocalEntregaAtivos());
 $horarioFuncionamento = new HorarioFuncionamentoControle();
 $sqlHorario = json_decode($horarioFuncionamento->buscarTodosHorario());
 
-// Empresa
 $empresa = new EmpresaControle();
 $sqlempresa = json_decode($empresa->buscarEmpresaId(1));
 if (!empty($sqlempresa)) :
@@ -32,8 +33,20 @@ if (!empty($sqlempresa)) :
 endif;
 
 // tipo Pizza
-$tipoPizza = new TipoPizzaControle();
-$objTipoPizza = json_decode($tipoPizza->buscarTodosTipoPizza());
+$tipoProduto = new TipoProdutoControle();
+$objTipoPizza = json_decode($tipoProduto->buscarTodosTipoProdutoCategoria("P"));
+
+$sqlTamPizza = new TamanhoPizzaControle();
+$objTamanhoPizza = json_decode($sqlTamPizza->buscarTodosTamanhoPizza());
+
+$sqlProdutos = new ProdutoControle();
+$objProdutos = json_decode($sqlProdutos->buscarProdutoCategoria("P"));
+
+$sqlProdutoB = new ProdutoControle();
+$objBorda = json_decode($sqlProdutoB->buscarProdutoCategoria("B"));
+
+$sqlProdutoA = new ProdutoControle();
+$objAcrescimo = json_decode($sqlProdutoA->buscarProdutoCategoria("A"));
 ?>
 
 <!DOCTYPE html>
@@ -161,14 +174,18 @@ $objTipoPizza = json_decode($tipoPizza->buscarTodosTipoPizza());
                                 <ul class="list-group list-group-flush">
                                     <ol class="list-group">
                                         <?php
+                                        $i = 0;
                                         foreach ($objTipoPizza as $registro):
+                                            $i++;
                                             ?>
                                             <li class="border-0 list-group-item d-flex justify-content-between align-items-start rounded-0 border-bottom" id="lista-pedido">
                                                 <div class="me-auto w-100">
                                                     <div class="form-check p-2">
-                                                        <input class="form-check-input mt-3 mx-2" type="radio" name="flexRadioDefault" id="flexRadioDefault1">  
-                                                        <div class="fw-bold"><?= utf8_decode($registro->descricao) ?></div>
-                                                        <?= utf8_decode($registro->subdescricao) ?>
+                                                        <input class="form-check-input mt-3 mx-2" type="radio" name="rdTipoPiza" id="flexRadioDefault<?= $i ?>" value="<?= $registro->id_tipo_produto ?>">  
+                                                        <label class="form-check-label" for="flexRadioDefault<?= $i ?>">
+                                                            <div class="fw-bold"><?= utf8_decode($registro->descricao) ?></div>
+                                                            <?= utf8_decode($registro->subdescricao) ?>
+                                                        </label>
                                                     </div>
                                                 </div>
                                             </li>
@@ -178,32 +195,124 @@ $objTipoPizza = json_decode($tipoPizza->buscarTodosTipoPizza());
                             </div>
                         </div>
                         <div class="carousel-item">
-                            <div class="card">
+                            <div class="card rounded-0 rounded-top border-bottom-0 w-100 overflow-auto" style="height:400px;">
                                 <div class="card-header">
-                                    2
+                                    2 Escolha o tamanho da Pizza.
                                 </div>
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">An item</li>
-                                    <li class="list-group-item">A second item</li>
-                                    <li class="list-group-item">A third item</li>
+                                    <ol class="list-group">
+                                        <?php
+                                        $i = 0;
+                                        foreach ($objTamanhoPizza as $registro):
+                                            $i++
+                                            ?>
+                                            <li class="border-0 list-group-item d-flex justify-content-between align-items-start rounded-0 border-bottom" id="lista-pedido">
+                                                <div class="me-auto w-100">
+                                                    <div class="form-check p-2">
+                                                        <input class="form-check-input mt-3 mx-2" type="radio" name="rdTamanhoPizza" id="flexRadioT<?= $i ?>" value="<?= $registro->id_tamanho_pizza ?>">  
+                                                        <label class="form-check-label" for="flexRadioT<?= $i ?>">
+                                                            <div class="fw-bold"><?= utf8_decode($registro->descricao) ?></div>
+                                                            <?= utf8_decode($registro->subdescricao) ?>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ol> 
                                 </ul>
                             </div>
                         </div>
                         <div class="carousel-item">
-                            <div class="card">
+                            <div class="card rounded-0 rounded-top border-bottom-0 w-100 overflow-auto" style="height:400px;">
                                 <div class="card-header">
-                                    3
+                                    4 Escolha 1 sabor da sua preferência:
                                 </div>
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">An item</li>
-                                    <li class="list-group-item">A second item</li>
-                                    <li class="list-group-item">A third item</li>
+                                    <ol class="list-group">
+                                        <?php
+                                        $i = 0;
+                                        foreach ($objProdutos as $registro):
+                                            $i++;
+                                            ?>
+                                            <li class="border-0 list-group-item d-flex justify-content-between align-items-start rounded-0 border-bottom" id="lista-pedido">
+                                                <div class="me-auto w-100">
+                                                    <div class="form-check p-2">
+                                                        <input class="form-check-input mt-3 mx-2" type="radio" name="rdProdutoPizza" id="flexRadioProduto<?= $i ?>" value="<?= $registro->id_produto ?>">  
+                                                        <label class="form-check-label" for="flexRadioProduto<?= $i ?>">
+                                                            <div class="fw-bold"><?= utf8_decode($registro->nome_produto) ?></div>
+                                                            <?= utf8_decode($registro->subdescricao) ?>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <span class="badge bg-primary rounded-pill mt-4 me-4">R$<?= $registro->valor_produto ?></span>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ol> 
                                 </ul>
                             </div>
                         </div>
+                        <div class="carousel-item">
+                            <div class="card rounded-0 rounded-top border-bottom-0 w-100 overflow-auto" style="height:400px;">
+                                <div class="card-header">
+                                    4 Escolha até 1 borda:
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <ol class="list-group">
+                                        <?php
+                                        $i = 0;
+                                        foreach ($objBorda as $registro):
+                                            $i++;
+                                            ?>
+                                            <li class="border-0 list-group-item d-flex justify-content-between align-items-start rounded-0 border-bottom" id="lista-pedido">
+                                                <div class="me-auto w-100">
+                                                    <div class="form-check p-2">
+                                                        <input class="form-check-input mt-3 mx-2" type="radio" name="rdProdutoBorda" id="flexRadioProdutoBorda<?= $i ?>" value="<?= $registro->id_produto ?>">  
+                                                        <label class="form-check-label" for="flexRadioProdutoBorda<?= $i ?>">
+                                                            <div class="fw-bold"><?= utf8_decode($registro->nome_produto) ?></div>
+                                                            <?= utf8_decode($registro->subdescricao) ?>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <span class="badge bg-primary rounded-pill mt-4 me-4">R$<?= $registro->valor_produto ?></span>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ol> 
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="card rounded-0 rounded-top border-bottom-0 w-100 overflow-auto" style="height:400px;">
+                                <div class="card-header">
+                                    4 Escolha até 1 borda:
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <ol class="list-group">
+                                        <?php
+                                        $i = 0;
+                                        foreach ($objAcrescimo as $registro):
+                                            $i++;
+                                            ?>
+                                            <li class="border-0 list-group-item d-flex justify-content-between align-items-start rounded-0 border-bottom" id="lista-pedido">
+                                                <div class="me-auto w-100">
+                                                    <div class="form-check p-2">
+                                                        <input class="form-check-input mt-3 mx-2" type="radio" name="rdProdutoAcrescimo" id="flexRadioProdutoA<?= $i ?>" value="<?= $registro->id_produto ?>">  
+                                                        <label class="form-check-label" for="flexRadioProdutoA<?= $i ?>">
+                                                            <div class="fw-bold"><?= utf8_decode($registro->nome_produto) ?></div>
+                                                            <?= utf8_decode($registro->subdescricao) ?>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <span class="badge bg-primary rounded-pill mt-4 me-4">R$<?= $registro->valor_produto ?></span>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ol> 
+                                </ul>
+                            </div>
+                        </div>
+
                     </div>
-                    <button class="carousel-control-next" style="background: #1763A1;width: 50%;height: 10%;top: 100%" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">Avançar</button>
-                    <button class="carousel-control-prev" style="background: #1763A1;width: 50%;height: 10%;top: 100%" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">Voltar</button>
+                    <button class="carousel-control-next" style="background: #1763A1;width: 50%;height: 10%;top: 100%" type="button">Avançar</button>
+                    <button class="carousel-control-prev" style="background: #1763A1;width: 50%;height: 10%;top: 100%" type="button">Voltar</button>
                 </div>
             </div>
         </section>
@@ -270,7 +379,7 @@ $objTipoPizza = json_decode($tipoPizza->buscarTodosTipoPizza());
                             </div>
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="basic-addon1"><i class="fas fa-mobile-alt"></i></span>
-                                <input type="text" id="celular" class="form-control" placeholder="Celular" aria-label="Username" aria-describedby="basic-addon1" name="celular" data-inputmask="'mask' : '(99) 9 9999-9999'">
+                                <input type="text" id="celular" class="form-control" placeholder="Celular" aria-label="Username" aria-describedby="basic-addon1" name="celular" autocomplete="off" pattern="\([0-9]{2}\)[0-9]{4,6}-[0-9]{3,4}$" required>
                             </div>
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="basic-addon1"><i class="fas fa-lock"></i></span>
@@ -306,7 +415,7 @@ $objTipoPizza = json_decode($tipoPizza->buscarTodosTipoPizza());
 
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="basic-addon1"><i class="fas fa-times fa-user"></i></span>
-                                <input type="text" id="telefone" name="xte" class="form-control" placeholder="Usuario" aria-label="Username" aria-describedby="basic-addon1">
+                                <input type="text" id="xte" name="xte" class="form-control" placeholder="Usuario" aria-label="Username" aria-describedby="basic-addon1">
                             </div>
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="basic-addon1"><i class="fas fa-times fa-lock"></i></span>
@@ -537,9 +646,5 @@ $objTipoPizza = json_decode($tipoPizza->buscarTodosTipoPizza());
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
-        
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.3/Chart.bundle.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
     </body>
 </html>
