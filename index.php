@@ -86,6 +86,22 @@ if (!empty($sqlusuariototalHj)) :
         $totalUsuarioHj = utf8_decode($registro->qtdeReg);
     endforeach;
 endif;
+
+$tipoProduto = new TipoProdutoControle();
+$objTipoPizza = json_decode($tipoProduto->buscarTodosTipoProdutoCategoria("P"));
+
+$sqlTamPizza = new TamanhoPizzaControle();
+$objTamanhoPizza = json_decode($sqlTamPizza->buscarTodosTamanhoPizza());
+
+$sqlProdutos = new ProdutoControle();
+$objProdutos = json_decode($sqlProdutos->buscarProdutoCategoria("P"));
+
+$sqlProdutoB = new ProdutoControle();
+$objBorda = json_decode($sqlProdutoB->buscarProdutoCategoria("B"));
+
+$sqlProdutoA = new ProdutoControle();
+$objAcrescimo = json_decode($sqlProdutoA->buscarProdutoCategoria("A"));
+
 ?>
 
 <!DOCTYPE html>
@@ -685,9 +701,5 @@ endif;
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.3/Chart.bundle.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
     </body>
 </html>
