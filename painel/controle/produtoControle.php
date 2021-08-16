@@ -163,6 +163,15 @@ class ProdutoControle extends Crud {
         }
     }
 
+    public function buscarProdutoCategoria($cat) {
+        try {
+            $sql = parent::selecionarJoin("produto p", "p.id_produto,p.nome_produto,p.subdescricao,p.valor_produto,p.foto_produto", "INNER JOIN tipo_produto t on t.id_tipo_produto = p.id_tipo_produto WHERE t.tipo_produto = '" . $cat . "' AND p.ativo = 'S' AND t.ativo = 'S'");
+            return($sql);
+        } catch (Exception $e) {
+            print($e->getMessage());
+        }
+    }
+
 }
 
 ?>
