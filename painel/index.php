@@ -81,7 +81,9 @@ $i = 1;
 $diaAtual = "";
 $dia1Anterior = "";
 $dia2Anterior = "";
-
+$totalDia = 0;
+$total1DiaAnterior = 0;
+$total2DiasAnterior = 0;
 if (!empty($sqltotalPedido)) :
     foreach ($sqltotalPedido as $registro):
         if ($i == 1) {
@@ -101,6 +103,17 @@ if (!empty($sqltotalPedido)) :
             $i++;
         }
     endforeach;
+else:
+    $data_atual = date("d-m-Y");
+    $diaAtual = $data_atual;
+
+    $data_1dia = date_create($data_atual);
+    date_sub($data_1dia, date_interval_create_from_date_string("1 day"));
+    $dia1Anterior = date_format($data_1dia, "d-m-Y");
+
+    $data_2dia = date_create($data_atual);
+    date_sub($data_2dia, date_interval_create_from_date_string("2 days"));
+    $dia2Anterior = date_format($data_2dia, "d-m-Y");
 endif;
 
 // Ranking Produtos - 10 mais vendidos
@@ -252,7 +265,9 @@ endif;
                             <div class = "menu_section">
                                 <h3>Menus</h3>
                                 <ul class = "nav side-menu">
+
                                     <li><a href = "?pg=dashboard"><i class = "fa fa-home"></i> Home </a></li>
+
                                     <li><a><i class = "fa fa-cog"></i> Configurações <span class = "fa fa-chevron-down"></span></a>
                                         <ul class = "nav child_menu">
 
@@ -275,6 +290,12 @@ endif;
                                             <li><a href = "?pg=produtos">Produtos</a></li>
                                         </ul>
                                     </li>
+
+
+                                    <li><a><i class = "fa fa-paper-plane"></i> Movimentações <span class = "fa fa-chevron-down"></span></a>
+                                        <ul class = "nav child_menu">
+                                            <li><a href = "?pg=pedidos">Pedidos</a></li>
+                                        </ul>
 
                                 </ul>
                             </div>

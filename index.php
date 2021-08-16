@@ -48,9 +48,9 @@ $pedidoControle = new PedidoControle();
 $sqlpedido = json_decode($pedidoControle->selectgraficoDashboard_Pedidos());
 
 $i = 1;
-$diaAtual = "";
-$dia1Anterior = "";
-$dia2Anterior = "";
+$diaAtual = "AAAA";
+$dia1Anterior = "BBB";
+$dia2Anterior = "CCC";
 
 $totalDia = 0;
 $total1DiaAnterior = 0;
@@ -106,7 +106,6 @@ $objBorda = json_decode($sqlProdutoB->buscarProdutoCategoria("B"));
 
 $sqlProdutoA = new ProdutoControle();
 $objAcrescimo = json_decode($sqlProdutoA->buscarProdutoCategoria("A"));
-
 ?>
 
 <!DOCTYPE html>

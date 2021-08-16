@@ -52,7 +52,7 @@ class PedidoControle extends Crud {
 
     public function buscarTodosPedidos() {
         try {
-            $sql = parent::selecionar("pedido", "id_pedido,data_pedido,hora_pedido,id_cliente,status,total_pedido,taxa_entrega,obs_pedido,previsao_entrega,data_cancelado,hora_cancelado,motivo_cancelado", "1 = 1");
+            $sql = parent::selecionarJoin("pedido p", "p.id_pedido,c.nome_cliente,c.telefone_celular,p.taxa_entrega,p.total_pedido,p.status,p.data_pedido,p.hora_pedido", "inner join cliente c on (p.id_cliente = c.id_cliente)");
             return($sql);
         } catch (PDOException $e) {
             print($e->getMessage());

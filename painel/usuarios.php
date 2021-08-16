@@ -1,7 +1,7 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <?php
 $sql = new UsuarioControle();
-$obj = json_decode($sql->buscarTodosUsuarios($_SESSION["ID_EMPRESA"]));
+$obj = json_decode($sql->buscarTodosUsuarios(1) );
 ?>
 <!-- page content -->
 <div class="right_col" role="main">
@@ -15,7 +15,9 @@ $obj = json_decode($sql->buscarTodosUsuarios($_SESSION["ID_EMPRESA"]));
                     <input type="hidden" value="cad_usuario" id="area" />
                     <input type="hidden" value="usuario" id="caminho" />
                     <div class="clearfix"></div>
-                </div>                
+                </div>           
+                
+                
                 <div class="x_content">
                     <table id="datatable-buttons" class="table table-striped table-bordered">
                         <thead>
@@ -31,13 +33,18 @@ $obj = json_decode($sql->buscarTodosUsuarios($_SESSION["ID_EMPRESA"]));
                                 ?>
                                 <tr class="<?= base64_encode($registro->id) ?>">
                                     <td><?= $registro->nome ?></td>
-                                    <td><?= Mascara::mask($registro->cpf, '###.###.###-##') ?></td>
-                                    <td><?= ($registro->status == 1 ? 'Ativo' : 'Inativo') ?></td>
+
+
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>                        
                     </table>
                 </div>
+                
+                                                 
+                
+                
+                
             </div>
         </div>
     </div>
