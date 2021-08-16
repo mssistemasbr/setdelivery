@@ -7,6 +7,8 @@ include './painel/controle/localEntregaControle.php';
 include './painel/controle/horarioFuncionamentoControle.php';
 include './painel/controle/empresaControle.php';
 include './painel/controle/tipoPizzaControle.php';
+include './painel/controle/pedidoControle.php';
+include './painel/controle/usuarioControle.php';
 
 // Forma de Pagamento
 $formaPagamento = new FormaPagamentoControle();
@@ -33,6 +35,55 @@ endif;
 // tipo Pizza
 $tipoPizza = new TipoPizzaControle();
 $objTipoPizza = json_decode($tipoPizza->buscarTodosTipoPizza());
+
+// Pedido
+$pedidoControle = new PedidoControle();
+$sqlpedido = json_decode($pedidoControle->selectgraficoDashboard_Pedidos());
+
+$i = 1;
+$diaAtual = "";
+$dia1Anterior = "";
+$dia2Anterior = "";
+
+$totalDia = 0;
+$total1DiaAnterior = 0;
+$total2DiasAnterior = 0;
+
+if (!empty($sqlpedido)) :
+    foreach ($sqlpedido as $registro):
+        if (i == 1) {
+            $diaAtual = utf8_decode($registro->dataPedido);
+            $totalDia = utf8_decode($registro->qtde);
+            $i++;
+        } else if (i == 2) {
+            $dia1Anterior = utf8_decode($registro->dataPedido);
+            $total1DiaAnterior = utf8_decode($registro->qtde);
+            $i++;
+        } else if (i == 3) {
+            $dia2Anterior = utf8_decode($registro->dataPedido);
+            $total2DiasAnterior = utf8_decode($registro->qtde);
+            $i++;
+        }
+    endforeach;
+endif;
+
+// Usuário - Total
+$usuarioControleTotal = new UsuarioControle();
+$sqlusuariototal = json_decode($usuarioControleTotal->contadorUsuarioTotal());
+if (!empty($sqlusuariototal)) :
+    foreach ($sqlusuariototal as $registro):
+        $totalUsuario = utf8_decode($registro->qtdeReg);
+    endforeach;
+endif;
+
+// Usuário - Total Hoje
+$usuarioControleTotalHj = new UsuarioControle();
+$sqlusuariototalHj = json_decode($usuarioControleTotalHj->contadorUsuarioTotalHoje());
+if (!empty($sqlusuariototalHj)) :
+    foreach ($sqlusuariototalHj as $registro):
+        $totalUsuarioHj = utf8_decode($registro->qtdeReg);
+    endforeach;
+endif;
 ?>
 
 <!DOCTYPE html>
@@ -536,9 +587,9 @@ $objTipoPizza = json_decode($tipoPizza->buscarTodosTipoPizza());
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
-        
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.3/Chart.bundle.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
     </body>
 </html>
