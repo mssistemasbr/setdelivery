@@ -47,32 +47,6 @@ $objTipoPizza = json_decode($tipoPizza->buscarTodosTipoPizza());
 $pedidoControle = new PedidoControle();
 $sqlpedido = json_decode($pedidoControle->selectgraficoDashboard_Pedidos());
 
-$i = 1;
-$diaAtual = "AAAA";
-$dia1Anterior = "BBB";
-$dia2Anterior = "CCC";
-
-$totalDia = 0;
-$total1DiaAnterior = 0;
-$total2DiasAnterior = 0;
-
-if (!empty($sqlpedido)) :
-    foreach ($sqlpedido as $registro):
-        if (i == 1) {
-            $diaAtual = utf8_decode($registro->dataPedido);
-            $totalDia = utf8_decode($registro->qtde);
-            $i++;
-        } else if (i == 2) {
-            $dia1Anterior = utf8_decode($registro->dataPedido);
-            $total1DiaAnterior = utf8_decode($registro->qtde);
-            $i++;
-        } else if (i == 3) {
-            $dia2Anterior = utf8_decode($registro->dataPedido);
-            $total2DiasAnterior = utf8_decode($registro->qtde);
-            $i++;
-        }
-    endforeach;
-endif;
 
 // Usuário - Total
 $usuarioControleTotal = new UsuarioControle();
