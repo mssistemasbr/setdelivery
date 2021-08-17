@@ -3,7 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-var estagioPedido = 0;
+
+var estagioPedido = 0, idTipoPizza = 0, idTamPizza = 0, idProduto = 0, idBordaPizza = 0, idAcrescimoPizza = 0, idItem = 0;
 
 $(document).ready(function ($) {
     var myCarousel = document.querySelector('#carouselExampleControls');
@@ -18,7 +19,7 @@ $(document).ready(function ($) {
 
     $('.carousel-control-prev').click(function () {
         if (estagioPedido === 0) {
-
+            alert("fechar modal");
         } else {
             estagioPedido--;
             if (estagioPedido === 0) {
@@ -30,7 +31,10 @@ $(document).ready(function ($) {
     });
 
     $('.carousel-control-next').click(function () {
-        if (estagioPedido === 0) {
+        if (estagioPedido === 5) {
+            salvarItemPedido();
+            alert("finalizar pedido");
+        } else if (estagioPedido === 0) {
             validaTipoPizza();
         } else if (estagioPedido === 1) {
             validaTamanhoPizza();
@@ -41,6 +45,8 @@ $(document).ready(function ($) {
         } else if (estagioPedido === 4) {
             validaProdutoAcrescimo();
             $('.carousel-control-next').html("Finalizar");
+        } else if (estagioPedido === 5) {
+            validaProdutoObs();
         }
     });
 
@@ -95,7 +101,7 @@ function validaTipoPizza() {
     if ($("input[type='radio'][name='rdTipoPiza'").is(":checked")) {
         $.each($("input[type='radio'][name='rdTipoPiza'"), function (id, val) {
             if ($(val).is(":checked")) {
-                alert($(this).attr('value'));
+                idTipoPizza = $(this).attr('value');
                 $('.carousel').carousel('next');
                 estagioPedido++;
                 $('.carousel-control-prev').html("Voltar");
@@ -111,7 +117,7 @@ function validaTamanhoPizza() {
     if ($("input[type='radio'][name='rdTamanhoPizza'").is(":checked")) {
         $.each($("input[type='radio'][name='rdTamanhoPizza'"), function (id, val) {
             if ($(val).is(":checked")) {
-                alert($(this).attr('value'));
+                idTamPizza = $(this).attr('value');
                 $('.carousel').carousel('next');
                 estagioPedido++;
             }
@@ -126,7 +132,7 @@ function validaProdutoPizza() {
     if ($("input[type='radio'][name='rdProdutoPizza'").is(":checked")) {
         $.each($("input[type='radio'][name='rdProdutoPizza'"), function (id, val) {
             if ($(val).is(":checked")) {
-                alert($(this).attr('value'));
+                idProduto = $(this).attr('value');
                 $('.carousel').carousel('next');
                 estagioPedido++;
             }
@@ -141,7 +147,7 @@ function validaProdutoBorda() {
     if ($("input[type='radio'][name='rdProdutoBorda'").is(":checked")) {
         $.each($("input[type='radio'][name='rdProdutoBorda'"), function (id, val) {
             if ($(val).is(":checked")) {
-                alert($(this).attr('value'));
+                idBordaPizza = $(this).attr('value');
                 $('.carousel').carousel('next');
                 estagioPedido++;
             }
@@ -156,7 +162,7 @@ function validaProdutoAcrescimo() {
     if ($("input[type='radio'][name='rdProdutoAcrescimo'").is(":checked")) {
         $.each($("input[type='radio'][name='rdProdutoAcrescimo'"), function (id, val) {
             if ($(val).is(":checked")) {
-                alert($(this).attr('value'));
+                idAcrescimoPizza = $(this).attr('value');
                 $('.carousel').carousel('next');
                 estagioPedido++;
             }
@@ -165,6 +171,32 @@ function validaProdutoAcrescimo() {
         alert("Escolha um Acrescimo.");
         return;
     }
+}
+
+function validaProdutoObs() {
+    estagioPedido++;
+}
+
+function salvarItemPedido() {
+    alert(idItem + "/" + idProduto + "/" + idTipoPizza + "/" + idTamPizza + "/" + $("#idSessao").val());
+    $.ajax({
+        url: '../painel/view/itemPedido/salvar.php',
+        type: 'POST',
+        data: {
+            idItem: idItem,
+            idProduto: idProduto,
+            idTipoPizza: idTipoPizza,
+            idTamPizza: idTamPizza,
+            sessao: $("#idSessao").val()
+        },
+        beforeSend: function () {
+            alert("ENVIANDO...");
+        }
+    }).done(function (msg) {
+        alert(msg);
+    }).fail(function (jqXHR, textStatus, msg) {
+        alert(msg);
+    });
 }
 
 function validaCamposCad() {

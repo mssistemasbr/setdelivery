@@ -1,5 +1,7 @@
 <?php
 session_start();
+session_regenerate_id();
+
 ini_set('display_errors', 0);
 ini_set('display_startup_erros', 0);
 error_reporting(E_ALL);
@@ -196,6 +198,7 @@ $objAcrescimo = json_decode($sqlProdutoA->buscarProdutoCategoria("A"));
 
         <!-- INICIO TELA PEDIDO -------------------------------------------->
         <section class="page-section" id="portfolio">
+            <input type="hidden" value="<?= session_id() ?>" id="idSessao"/>
             <div class="container mt-5" style="height:400px;width: 100%;">
                 <div id="carouselExampleControls" style="height:100%;width: 100%;" class="carousel slide" data-interval="false" data-bs-ride="carousel">
                     <div class="carousel-inner">
@@ -258,7 +261,7 @@ $objAcrescimo = json_decode($sqlProdutoA->buscarProdutoCategoria("A"));
                         <div class="carousel-item">
                             <div class="card rounded-0 rounded-top border-bottom-0 w-100 overflow-auto" style="height:400px;">
                                 <div class="card-header">
-                                    4 Escolha 1 sabor da sua preferência:
+                                    3 Escolha 1 sabor da sua preferência:
                                 </div>
                                 <ul class="list-group list-group-flush">
                                     <ol class="list-group">
@@ -339,6 +342,18 @@ $objAcrescimo = json_decode($sqlProdutoA->buscarProdutoCategoria("A"));
                                             </li>
                                         <?php endforeach; ?>
                                     </ol> 
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="card rounded-0 rounded-top border-bottom-0 w-100 overflow-auto" style="height:400px;">
+                                <div class="card-header">
+                                    5 Digite sua observação:
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="border-0 list-group-item d-flex justify-content-between align-items-start rounded-0" id="lista-pedido">
+                                        <textarea class="w-100 m-3 h-100" rows="10" id="obsPizza"></textarea>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
