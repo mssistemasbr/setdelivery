@@ -16,9 +16,10 @@ class ClienteControle extends Crud {
                                 $this->clienteModelo->getEmail() . "|" .
                                 $this->clienteModelo->getSenha());
             else:
-                parent::atualizar("cliente", "nome_cliente,telefone_celular,",
+                parent::atualizar("cliente", "nome_cliente,telefone_celular,senha,",
                         $this->clienteModelo->getNomeCliente() . "|" .
                         $this->clienteModelo->getTelefoneCelular() . "|" .
+                        $this->clienteModelo->getSenha() . "|" .
                         $this->clienteModelo->getIdCliente(), "id_cliente = ?");
                 $id = $this->clienteModelo->getIdCliente();
             endif;
@@ -28,27 +29,27 @@ class ClienteControle extends Crud {
         }
     }
 
-    public function buscarTipoProdutoId($id) {
+    public function buscarClienteId($id) {
         try {
-            $sql = parent::selecionar("tipo_produto", "id_tipo_produto,descricao,ativo", "id_tipo_produto = '" . $id . "'");
+            $sql = parent::selecionar("cliente", "id_cliente,nome_cliente,telefone_celular,email,senha,ativo", "id_cliente = '" . $id . "'");
             return($sql);
         } catch (Exception $e) {
             print($e->getMessage());
         }
     }
 
-    public function buscarTodosTipoProduto() {
+    public function buscarTodosClientes() {
         try {
-            $sql = parent::selecionar("tipo_produto", "id_tipo_produto,descricao,ativo", "1 = 1");
+            $sql = parent::selecionar("cliente", "id_cliente,nome_cliente,telefone_celular,email,senha,ativo", "1 = 1");
             return($sql);
         } catch (Exception $e) {
             print($e->getMessage());
         }
     }
 
-    public function deletarTipoProduto($id) {
+    public function deletarCliente($id) {
         try {
-            parent::deletar("tipo_produto", "id_tipo_produto = '" . $id . "'");
+            parent::deletar("cliente", "id_cliente = '" . $id . "'");
         } catch (Exception $e) {
             print($e->getMessage());
         }

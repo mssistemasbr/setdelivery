@@ -17,6 +17,7 @@ include './controle/localEntregaControle.php';
 include './controle/horarioFuncionamentoControle.php';
 include './controle/formaPagamentoControle.php';
 include './controle/pedidoControle.php';
+include './controle/clienteControle.php';
 
 $usuarioControle = new UsuarioControle();
 if (!$usuarioControle->protegePagina()) :
@@ -280,6 +281,7 @@ endif;
                                                 <?php
                                             endif;
                                             ?>
+                                            <li><a href="?pg=clientes">Clientes</a></li>
                                             <li><a href = "?pg=usuarios">Usuários</a></li>
                                             <li><a href = "?pg=forma_pagamento">Forma de Pagamento</a></li>
                                             <li><a href = "?pg=horario">Horário de Funcionamento</a></li>

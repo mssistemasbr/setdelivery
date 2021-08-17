@@ -21,7 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') :
     $clienteControle = new ClienteControle();
     $idCliente = $clienteControle->salvarCliente($clienteModelo);
 
-    if ($idCliente > 0) {
+    if((int) $_POST['id'] == $idCliente) {
+        echo 'trueAlterar';
+    } else if ($id > 0) {
         echo 'trueSalvar';
     } else {
         echo 'errorCadastrar';
