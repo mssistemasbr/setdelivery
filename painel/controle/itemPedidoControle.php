@@ -9,11 +9,13 @@ class ItemPedidoControle extends Crud {
 
         try {
             if ($this->itemPedidoModelo->getIdItem() == 0):
-                $id = parent::inserir("item_pedido", "id_item,id_produto,id_tipo_pizza,id_tam_pizza,sessao",
+                $id = parent::inserir("item_pedido", "id_item,id_produto,id_tipo_pizza,id_tam_pizza,id_acrescimo,id_borda,sessao",
                                 $this->itemPedidoModelo->getIdItem() . "|" .
                                 $this->itemPedidoModelo->getIdProduto() . "|" .
                                 $this->itemPedidoModelo->getIdTipoPizza() . "|" .
                                 $this->itemPedidoModelo->getIdTamPizza() . "|" .
+                                $this->itemPedidoModelo->getIdAcresPizza() . "|" .
+                                $this->itemPedidoModelo->getIdBordaPizza() . "|" .
                                 $this->itemPedidoModelo->getSessao());
 
             else:
@@ -29,7 +31,7 @@ class ItemPedidoControle extends Crud {
         }
     }
 
-    public function buscarTipoPizzaId($id) {
+    public function buscarItemPedidoSessao($sessao) {
         try {
             $sql = parent::selecionar("tipo_pizza", "id_tipo_pizza,descricao,subdescricao,ativo", "id_tipo_pizza = '" . $id . "'");
             return($sql);

@@ -180,13 +180,17 @@ function validaProdutoObs() {
 function salvarItemPedido() {
     alert(idItem + "/" + idProduto + "/" + idTipoPizza + "/" + idTamPizza + "/" + $("#idSessao").val());
     $.ajax({
-        url: '../painel/view/itemPedido/salvar.php',
+        url: 'painel/view/itemPedido/salvar.php',
         type: 'POST',
         data: {
             idItem: idItem,
+            idPedido: 0,
+            qtde:1,
             idProduto: idProduto,
             idTipoPizza: idTipoPizza,
             idTamPizza: idTamPizza,
+            idAcrescimoPizza:idAcrescimoPizza,
+            idBordaPizza:idBordaPizza,
             sessao: $("#idSessao").val()
         },
         beforeSend: function () {

@@ -1,10 +1,13 @@
 <?php
 session_start();
-session_regenerate_id();
 
 ini_set('display_errors', 0);
 ini_set('display_startup_erros', 0);
 error_reporting(E_ALL);
+
+if (isset($renovar)):
+    session_regenerate_id();
+endif;
 
 $idCliente = 0;
 
@@ -19,6 +22,7 @@ include './painel/controle/tamanhoPizzaControle.php';
 include './painel/controle/produtoControle.php';
 include './painel/controle/pedidoControle.php';
 include './painel/controle/usuarioControle.php';
+include './painel/controle/itemPedidoControle.php';
 
 // Forma de Pagamento
 $formaPagamento = new FormaPagamentoControle();
@@ -41,14 +45,9 @@ if (!empty($sqlempresa)) :
     endforeach;
 endif;
 
-// tipo Pizza
-$tipoPizza = new TipoPizzaControle();
-$objTipoPizza = json_decode($tipoPizza->buscarTodosTipoPizza());
-
 // Pedido
 $pedidoControle = new PedidoControle();
 $sqlpedido = json_decode($pedidoControle->selectgraficoDashboard_Pedidos());
-
 
 // Usuário - Total
 $usuarioControleTotal = new UsuarioControle();
@@ -82,6 +81,8 @@ $objBorda = json_decode($sqlProdutoB->buscarProdutoCategoria("B"));
 
 $sqlProdutoA = new ProdutoControle();
 $objAcrescimo = json_decode($sqlProdutoA->buscarProdutoCategoria("A"));
+
+$sqlItemPedido = new ItemPedidoControle();
 ?>
 
 <!DOCTYPE html>
@@ -165,16 +166,7 @@ $objAcrescimo = json_decode($sqlProdutoA->buscarProdutoCategoria("A"));
                             </div>
                             <div class="card-body" style="padding: 0;">
                                 <ol class="list-group">
-                                    <li class="list-group-item d-flex justify-content-between align-items-start" id="lista-pedido">
-                                        <div class="ms-2 me-auto">
-                                            <div class="fw-bold"><img src="assets/img/guarana.png"/>Guarana Antartica 2L</div>
-                                        </div>
-                                        <span class="badge mt-3" style="width: 25%;padding: 0">
-                                            <button class="btn btn-primary text-center" id="soma-itens-pedido">+</button>
-                                            <input type="text" id="soma-itens-pedido" value="0" style="width: 37%" class="form-control text-center"/>
-                                            <button class="btn btn-primary text-sm-left" id="soma-itens-pedido">-</button>          
-                                        </span>
-                                    </li>
+                                    <?php?>
                                     <li class="list-group-item d-flex justify-content-between align-items-start" id="lista-pedido">
                                         <div class="ms-2 me-auto">
                                             <div class="fw-bold"><img src="assets/img/guarana.png"/>Guarana Antartica 2L</div>

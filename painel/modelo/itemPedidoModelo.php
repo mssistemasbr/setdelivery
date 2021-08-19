@@ -7,6 +7,8 @@ class ItemPedidoModelo {
     private $idProduto;
     private $idTipoPizza;
     private $idTamPizza;
+    private $idAcresPizza;
+    private $idBordaPizza;
     private $quantidade;
     private $sessao;
 
@@ -29,7 +31,15 @@ class ItemPedidoModelo {
     function getIdTamPizza() {
         return $this->idTamPizza;
     }
+    
+    function getIdAcresPizza() {
+        return $this->idAcresPizza;
+    }
 
+    function getIdBordaPizza() {
+        return $this->idBordaPizza;
+    }
+    
     function getQuantidade() {
         return $this->quantidade;
     }
@@ -56,6 +66,14 @@ class ItemPedidoModelo {
 
     function setIdTamPizza($idTamPizza) {
         $this->idTamPizza = $idTamPizza;
+    }
+    
+    function setIdAcresPizza($idAcresPizza) {
+        $this->idAcresPizza = $idAcresPizza;
+    }
+    
+    function setIdBordaPizza($idBordaPizza) {
+        $this->idBordaPizza = $idBordaPizza;
     }
 
     function setQuantidade($quantidade) {

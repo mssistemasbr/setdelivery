@@ -1,6 +1,7 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_erros', 1);
+
+ini_set('display_errors', 0);
+ini_set('display_startup_erros', 0);
 error_reporting(E_ALL);
 
 include ("../../config/crud.php");
@@ -10,12 +11,14 @@ include ("../../modelo/itemPedidoModelo.php");
 if ($_SERVER['REQUEST_METHOD'] == 'POST') :
 
     $itemPedidoModelo = new ItemPedidoModelo();
-    $itemPedidoModelo->setIdItem((int)$_POST['idItem']);
-    $itemPedidoModelo->setIdPedido((int)$_POST['idPedido']);
-    $itemPedidoModelo->setIdProduto((int)$_POST['idProduto']);
-    $itemPedidoModelo->setIdTipoPizza((int)$_POST['idTipoPizza']);
-    $itemPedidoModelo->setIdTamPizza((int)intval($_POST['idTamPizza']));
-    $itemPedidoModelo->setQuantidade((doubleval($_POST['qtde'])));
+    $itemPedidoModelo->setIdItem((int) $_POST['idItem']);
+    $itemPedidoModelo->setIdPedido((int) $_POST['idPedido']);
+    $itemPedidoModelo->setIdProduto((int) $_POST['idProduto']);
+    $itemPedidoModelo->setIdTipoPizza((int) $_POST['idTipoPizza']);
+    $itemPedidoModelo->setIdTamPizza((int) intval($_POST['idTamPizza']));
+    $itemPedidoModelo->setIdAcresPizza((int) intval($_POST['idAcrescimoPizza']));
+    $itemPedidoModelo->setIdBordaPizza((int) intval($_POST['idBordaPizza']));
+    $itemPedidoModelo->setQuantidade($_POST['qtde']);
     $itemPedidoModelo->setSessao($_POST['sessao']);
 
     $itemPedidoControle = new ItemPedidoControle();
