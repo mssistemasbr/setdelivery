@@ -71,17 +71,23 @@ $(document).ready(function ($) {
             contentType: false,
             processData: false,
             success: function (data) {
-                //$('#divCarregando').fadeOut('slow');
-                $("#teste").html(data);
-
+                alert(data);
                 if (data === 'trueSalvar') {
                     msgSucess('Cadastro feito com sucesso!');
                     setTimeout(function () {
                         // window.location.href = "?pg=" + $("#area").val();
                         // ja fazer o login automatico.
                     }, 5000);
+                } else if (data === 'trueAlterar') {
+                    msgSucess('Alteração feito com sucesso!');
+                    setTimeout(function () {
+                        // window.location.href = "?pg=" + $("#area").val();
+                        // ja fazer o login automatico.
+                    }, 5000);
                 } else if (data === 'errorEmail') {
-                    msgError('E-mail ja existente !');
+                    msgError('E-mail já existente !');
+                } else if (data.trim() === 'erroTelefone') {
+                    msgError('Telefone celular já existente !');
                 } else {
                     msgError('Erro ao tentar cadastrar ou alterar! ' + data);
                 }

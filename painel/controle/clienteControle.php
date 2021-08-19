@@ -47,6 +47,38 @@ class ClienteControle extends Crud {
         }
     }
 
+    public function checkEmailCliente($email) {
+        try {
+            $sql = json_decode(parent::selecionar("cliente", "email", "email = '" . $email . "'"));
+            foreach ($sql as $email) :
+                $checkEmail = $email->email;
+            endforeach;
+            return($checkEmail);
+        } catch (Exception $e) {
+            print($e->getMessage());
+        }
+    }
+
+    public function checkTelefoneCliente($telefone_celular) {
+        try {
+            $sql = json_decode(parent::selecionar("cliente", "telefone_celular", "telefone_celular = '" . $telefone_celular . "'"));
+            foreach ($sql as $telefone_celular) :
+                $checkTelefone = $telefone_celular->telefone_celular;
+            endforeach;
+            return($checkTelefone);
+        } catch (Exception $e) {
+            print($e->getMessage());
+        }
+    }
+
+    public function enviaEmail() {
+        try {
+            parent::enviarEmail('ada','fdgfdgf',"hgfhghf");
+        } catch (Exception $ex) {
+            print($e->getMessage());
+        }
+    }
+
     public function deletarCliente($id) {
         try {
             parent::deletar("cliente", "id_cliente = '" . $id . "'");

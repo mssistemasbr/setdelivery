@@ -54,11 +54,11 @@ class Crud extends PDO {
             echo "Erro: " . $ex->getMessage();
         }
     }
-    
+
     public function selecionarJoin($tabela, $campos, $condicao) {
         $this->campos = $campos;
         $this->tabela = $tabela;
-        $this->condicao = $condicao;        
+        $this->condicao = $condicao;
         try {
             $json = array();
             $sql = $this->conexao->query("select $this->campos from $this->tabela $this->condicao")->fetchAll();
@@ -115,14 +115,14 @@ class Crud extends PDO {
         $c = explode("|", $this->valores);
         $t = ",?";
         $valor = "";
-        for ($i = 1; $i <= count($c) - 1; $i++): 
+        for ($i = 1; $i <= count($c) - 1; $i++):
             $valor .= $t;
         endfor;
 
         $b = explode(",", $campos);
         for ($i = 1; $i <= count($b); $i++):
             $camposF .= $b[$i] . ",";
-        endfor;        
+        endfor;
         $camposF = substr($camposF, 0, strlen($camposF) - 2);
         try {
             $this->conexao->beginTransaction();
@@ -190,18 +190,17 @@ class Crud extends PDO {
             //print_r("erro");
         }
     }
-    
+
     public function countregistros($tabela, $campos, $condicao) {
         $this->campos = $campos;
         $this->tabela = $tabela;
         $this->condicao = $condicao;
         try {
             $json = array();
-            if ($condicao != null || $condicao != ""){
+            if ($condicao != null || $condicao != "") {
                 $sql = $this->conexao->query("select count($this->campos) as qtdeReg from $this->tabela where $this->condicao")->fetchAll();
-                
             } else {
-                $sql = $this->conexao->query("select count($this->campos) as qtdeReg from $this->tabela")->fetchAll(); 
+                $sql = $this->conexao->query("select count($this->campos) as qtdeReg from $this->tabela")->fetchAll();
             }
             foreach ($sql as $key => $value) :
                 foreach ($value as $k => $v) :
@@ -213,7 +212,7 @@ class Crud extends PDO {
         } catch (PDOException $ex) {
             echo "Erro: " . $ex->getMessage();
         }
-    } 
+    }
 
     public function desconectar() {
         try {
