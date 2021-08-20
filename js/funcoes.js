@@ -99,9 +99,21 @@ $(document).ready(function ($) {
         });
         return false;
     });
-
-
 });
+
+
+function somaQtdeItem(parametro, inputQtd, event) {
+    event.stopPropagation();
+    if (parametro === "somar") {
+        $('input[type=text][name=' + inputQtd + ']').val(parseFloat($('input[type=text][name=' + inputQtd + ']').val()) + 1);
+        $('#valor-total').html(parseFloat($('#valor-total').html()) + parseFloat($('#valor-item-' + inputQtd).val()));
+    } else {
+        if ($('input[type=text][name=' + inputQtd + ']').val() > 0) {
+            $('input[type=text][name=' + inputQtd + ']').val(parseFloat($('input[type=text][name=' + inputQtd + ']').val()) - 1);
+            $('#valor-total').html(parseFloat($('#valor-total').html()) - parseFloat($('#valor-item-' + inputQtd).val()));
+        }
+    }
+}
 
 function validaTipoPizza() {
     if ($("input[type='radio'][name='rdTipoPiza'").is(":checked")) {
@@ -154,14 +166,11 @@ function validaProdutoBorda() {
         $.each($("input[type='radio'][name='rdProdutoBorda'"), function (id, val) {
             if ($(val).is(":checked")) {
                 idBordaPizza = $(this).attr('value');
-                $('.carousel').carousel('next');
-                estagioPedido++;
             }
         });
-    } else {
-        alert("Escolha uma borda.");
-        return;
     }
+    $('.carousel').carousel('next');
+    estagioPedido++;
 }
 
 function validaProdutoAcrescimo() {
@@ -169,14 +178,11 @@ function validaProdutoAcrescimo() {
         $.each($("input[type='radio'][name='rdProdutoAcrescimo'"), function (id, val) {
             if ($(val).is(":checked")) {
                 idAcrescimoPizza = $(this).attr('value');
-                $('.carousel').carousel('next');
-                estagioPedido++;
             }
         });
-    } else {
-        alert("Escolha um Acrescimo.");
-        return;
     }
+    $('.carousel').carousel('next');
+    estagioPedido++;
 }
 
 function validaProdutoObs() {
@@ -184,19 +190,18 @@ function validaProdutoObs() {
 }
 
 function salvarItemPedido() {
-    alert(idItem + "/" + idProduto + "/" + idTipoPizza + "/" + idTamPizza + "/" + $("#idSessao").val());
     $.ajax({
         url: 'painel/view/itemPedido/salvar.php',
         type: 'POST',
         data: {
             idItem: idItem,
             idPedido: 0,
-            qtde:1,
+            qtde: 1,
             idProduto: idProduto,
             idTipoPizza: idTipoPizza,
             idTamPizza: idTamPizza,
-            idAcrescimoPizza:idAcrescimoPizza,
-            idBordaPizza:idBordaPizza,
+            idAcrescimoPizza: idAcrescimoPizza === '' ? 'NULL' : idAcrescimoPizza,
+            idBordaPizza: idBordaPizza === '' ? 'NULL' : idBordaPizza,
             sessao: $("#idSessao").val()
         },
         beforeSend: function () {

@@ -11038,6 +11038,26 @@ html {
         font-weight: bold;
         padding: 0;
     }
+
+    #diminui-itens-pedido{
+        float: left;
+        margin: 0;
+        width: 30%;
+        border: 0;
+        border-radius: 0;
+        font-weight: bold;
+        padding: 0;
+    }
+    
+    #qtd-itens-pedido{
+        float: left;
+        margin: 0;
+        width: 30%;
+        border: 0;
+        border-radius: 0;
+        font-weight: bold;
+        padding: 0;
+    }
 }
 
 .form-floating input.form-control,

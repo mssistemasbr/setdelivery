@@ -33,7 +33,12 @@ class ItemPedidoControle extends Crud {
 
     public function buscarItemPedidoSessao($sessao) {
         try {
-            $sql = parent::selecionar("tipo_pizza", "id_tipo_pizza,descricao,subdescricao,ativo", "id_tipo_pizza = '" . $id . "'");
+            $sql = parent::selecionarJoin("item_pedido i", "i.id_item,i.qtde,p.nome_produto AS nome_pizza, p.valor_produto AS valor_pizza, a.nome_produto AS acrescimo, COALESCE(a.valor_produto,0) AS valor_acrescimo, t.descricao AS tipo_pizza, b.nome_produto AS nome_borda, COALESCE(b.valor_produto,0) AS valor_borda", "
+                INNER JOIN produto p ON ( i.id_produto = p.id_produto )
+                INNER JOIN tipo_pizza t ON ( i.id_tipo_pizza = t.id_tipo_pizza )
+                LEFT JOIN produto a ON ( i.id_acrescimo = a.id_produto )
+                LEFT JOIN produto b ON ( i.id_borda = b.id_produto )
+                WHERE i.sessao = '" . $sessao . "'");
             return($sql);
         } catch (Exception $e) {
             print($e->getMessage());

@@ -83,6 +83,7 @@ $sqlProdutoA = new ProdutoControle();
 $objAcrescimo = json_decode($sqlProdutoA->buscarProdutoCategoria("A"));
 
 $sqlItemPedido = new ItemPedidoControle();
+$objItemPedido = json_decode($sqlItemPedido->buscarItemPedidoSessao(session_id()));
 ?>
 
 <!DOCTYPE html>
@@ -166,21 +167,33 @@ $sqlItemPedido = new ItemPedidoControle();
                             </div>
                             <div class="card-body" style="padding: 0;">
                                 <ol class="list-group">
-                                    <?php?>
-                                    <li class="list-group-item d-flex justify-content-between align-items-start" id="lista-pedido">
-                                        <div class="ms-2 me-auto">
-                                            <div class="fw-bold"><img src="assets/img/guarana.png"/>Guarana Antartica 2L</div>
-                                        </div>
-                                        <span class="badge mt-3" style="width: 25%;padding: 0">
-                                            <button class="btn btn-primary text-center" id="soma-itens-pedido">+</button>
-                                            <input type="text" id="soma-itens-pedido" value="0" style="width: 37%" class="form-control text-center"/>
-                                            <button class="btn btn-primary text-sm-left" id="soma-itens-pedido">-</button>          
-                                        </span>
-                                    </li>
+                                    <?php
+                                    if (count($objItemPedido) > 0):
+                                        $i = 0;
+                                        foreach ($objItemPedido as $item):
+                                            $i++;
+                                            $valorTotalItem = $item->valor_pizza + $item->valor_acrescimo + $item->valor_borda;
+                                            $valorTotalPedido = $valorTotalItem + $valorTotalPedido;
+                                            ?>
+                                            <li class="list-group-item d-flex justify-content-between align-items-start" id="lista-pedido">
+                                                <input type="hidden" value="<?= $valorTotalItem ?>" id="valor-item-<?= $i ?>"/>
+                                                <div class="ms-2 me-auto">
+                                                    <div class="fw-bold"><img src="assets/img/guarana.png"/><?= $item->nome_pizza ?></div>
+                                                </div>
+                                                <span class="badge mt-3" style="width: 25%;padding: 0">
+                                                    <button onclick="somaQtdeItem('somar',<?= $i ?>, event)" class="btn btn-primary text-center" id="soma-itens-pedido">+</button>
+                                                    <input type="text" id="qtd-itens-pedido" name="<?= $i ?>" value="<?= $item->qtde ?>" style="width: 37%" class="form-control text-center"/>
+                                                    <button onclick="somaQtdeItem('diminuir',<?= $i ?>, event)" class="btn btn-primary text-sm-left" id="diminui-itens-pedido">-</button>          
+                                                </span>
+                                            </li>
+                                            <?php
+                                        endforeach;
+                                    endif;
+                                    ?>
                                 </ol>
                             </div>
                             <div class="card-footer text-muted" style="font-size: 1.5rem;font-weight: bold">
-                                VALOR TOTAL : R$<span id="valor-total">100,00</span>
+                                VALOR TOTAL : R$ <span id="valor-total"><?= $valorTotalPedido ?></span>
                             </div>
                         </div>
                     </div>
