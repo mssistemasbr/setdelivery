@@ -81,9 +81,6 @@ $objBorda = json_decode($sqlProdutoB->buscarProdutoCategoria("B"));
 
 $sqlProdutoA = new ProdutoControle();
 $objAcrescimo = json_decode($sqlProdutoA->buscarProdutoCategoria("A"));
-
-$sqlItemPedido = new ItemPedidoControle();
-$objItemPedido = json_decode($sqlItemPedido->buscarItemPedidoSessao(session_id()));
 ?>
 
 <!DOCTYPE html>
@@ -166,8 +163,10 @@ $objItemPedido = json_decode($sqlItemPedido->buscarItemPedidoSessao(session_id()
                                 <img src="assets/img/img-meu-pedido.png"/>
                             </div>
                             <div class="card-body" style="padding: 0;">
-                                <ol class="list-group">
+                                <ol class="list-group" id="itens-pedido">
                                     <?php
+                                    $sqlItemPedido = new ItemPedidoControle();
+                                    $objItemPedido = json_decode($sqlItemPedido->buscarItemPedidoSessao(session_id()));
                                     if (count($objItemPedido) > 0):
                                         $i = 0;
                                         foreach ($objItemPedido as $item):
@@ -176,14 +175,14 @@ $objItemPedido = json_decode($sqlItemPedido->buscarItemPedidoSessao(session_id()
                                             $valorTotalPedido = $valorTotalItem + $valorTotalPedido;
                                             ?>
                                             <li class="list-group-item d-flex justify-content-between align-items-start" id="lista-pedido">
-                                                <input type="hidden" value="<?= $valorTotalItem ?>" id="valor-item-<?= $i ?>"/>
+                                                <input type="hidden" value=" <?= $valorTotalItem ?>" id="valor-item-<?= $i ?>"/>
                                                 <div class="ms-2 me-auto">
-                                                    <div class="fw-bold"><img src="assets/img/guarana.png"/><?= $item->nome_pizza ?></div>
+                                                    <div class="fw-bold"><img src="assets/img/guarana.png"/><?= $item->nome_pizza ?><i onclick="deletarItemPedido(<?= $item->id_item ?>)" class="fas fa-times fa-trash"></i></div>
                                                 </div>
                                                 <span class="badge mt-3" style="width: 25%;padding: 0">
-                                                    <button onclick="somaQtdeItem('somar',<?= $i ?>, event)" class="btn btn-primary text-center" id="soma-itens-pedido">+</button>
+                                                    <button onclick="somaQtdeItem(0, <?= $i ?>)" class="btn btn-primary text-center" id="soma-itens-pedido">+</button>
                                                     <input type="text" id="qtd-itens-pedido" name="<?= $i ?>" value="<?= $item->qtde ?>" style="width: 37%" class="form-control text-center"/>
-                                                    <button onclick="somaQtdeItem('diminuir',<?= $i ?>, event)" class="btn btn-primary text-sm-left" id="diminui-itens-pedido">-</button>          
+                                                    <button onclick="somaQtdeItem(1,<?= $i ?>)" class="btn btn-primary text-sm-left" id="diminui-itens-pedido">-</button>          
                                                 </span>
                                             </li>
                                             <?php

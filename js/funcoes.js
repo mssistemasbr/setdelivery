@@ -102,9 +102,8 @@ $(document).ready(function ($) {
 });
 
 
-function somaQtdeItem(parametro, inputQtd, event) {
-    event.stopPropagation();
-    if (parametro === "somar") {
+function somaQtdeItem(parametro, inputQtd) {
+    if (parametro === 0) {
         $('input[type=text][name=' + inputQtd + ']').val(parseFloat($('input[type=text][name=' + inputQtd + ']').val()) + 1);
         $('#valor-total').html(parseFloat($('#valor-total').html()) + parseFloat($('#valor-item-' + inputQtd).val()));
     } else {
@@ -209,6 +208,49 @@ function salvarItemPedido() {
         }
     }).done(function (msg) {
         alert(msg);
+        carregarItensPedido();
+    }).fail(function (jqXHR, textStatus, msg) {
+        alert(msg);
+    });
+}
+
+function carregarItensPedido() {
+    $("#itens-pedido").html("");
+    $('#valor-total').html("");
+    $.ajax({
+        url: 'itens_pedido.php',
+        type: 'POST',
+        data: {
+            sessao: $("#idSessao").val()
+        },
+        beforeSend: function () {
+            alert("Atualizando");
+        }
+    }).done(function (pedido) {
+        //alert(pedido);
+        var itens = pedido.split("|");
+        $("#itens-pedido").html(itens[0]);
+        $('#valor-total').html(parseFloat(itens[1]));
+    }).fail(function (jqXHR, textStatus, msg) {
+        alert(msg);
+    });
+}
+
+function deletarItemPedido(id) {
+    $.ajax({
+        url: 'painel/view/itemPedido/excluir.php',
+        type: 'POST',
+        data: {
+            id: id
+        },
+        beforeSend: function () {
+            alert("Excluindo");
+        }
+    }).done(function (msg) {
+        //alert(msg);
+        if (msg === "1") {
+            carregarItensPedido();
+        }
     }).fail(function (jqXHR, textStatus, msg) {
         alert(msg);
     });

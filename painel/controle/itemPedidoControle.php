@@ -45,18 +45,9 @@ class ItemPedidoControle extends Crud {
         }
     }
 
-    public function buscarTodosTipoPizza() {
+    public function deletarItemPedido($id) {
         try {
-            $sql = parent::selecionar("tipo_pizza", "id_tipo_pizza,descricao,subdescricao,ativo", "1 = 1");
-            return($sql);
-        } catch (Exception $e) {
-            print($e->getMessage());
-        }
-    }
-
-    public function deletarTipoPizza($id) {
-        try {
-            parent::deletar("tipo_pizza", "id_tipo_produto = '" . $id . "'");
+            parent::deletar("item_pedido", "id_item = '" . $id . "'");
         } catch (Exception $e) {
             print($e->getMessage());
         }
