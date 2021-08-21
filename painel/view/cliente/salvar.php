@@ -36,12 +36,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') :
     elseif ($telefone_celular == $_POST['telefone_celular']):
         echo 'erroTelefone';
     else:
+
+        $ativo = ($_POST['ativo'] == 'on' ? "S" : "N");
+
+        $data = date("Y-m-d");
+        $hora = date("H:i:s");
+        $tipoCadastro = "web";
+
         $clienteModelo = new ClienteModelo();
         $clienteModelo->setIdCliente((int) $_POST['id']);
         $clienteModelo->setNomeCliente($_POST['nome_cliente']);
         $clienteModelo->setEmail($_POST['email']);
         $clienteModelo->setTelefoneCelular($_POST['telefone_celular']);
         $clienteModelo->setSenha($_POST['senha']);
+        $clienteModelo->setAtivo($ativo);
+        $clienteModelo->setDataCadastro($data);
+        $clienteModelo->setHoraCadastro($hora);
+        $clienteModelo->setTipoCadastro($tipoCadastro);
+        $clienteModelo->setDataAlteracao($data);
+        $clienteModelo->setHoraAlteracao($hora);
+        $clienteModelo->setTipoAlteracao($tipoCadastro);
 
         $clienteControle = new ClienteControle();
         $idCliente = $clienteControle->salvarCliente($clienteModelo);
@@ -52,9 +66,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') :
             echo 'trueSalvar';
 
             // enviar email de boas-vindas.
-            $empresaControle = new EmpresaControle();
-
-            enviarEmail();
+            // enviar email de boas-vindas.
+            $emailc = new ClienteControle();
+            $emailc->enviaEmail($_POST['email'], 1);
         } else {
             echo 'errorCadastrar';
         }
@@ -62,43 +76,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') :
 else:
     echo $_SERVER['REQUEST_METHOD'];
 endif;
-
-function enviarEmail() {
-
-
-
-    $mensagem = file_get_contents('../../modelos_email/modelo_bemvindo_01.txt');
-
-
-    // Inicia a classe PHPMailer
-    $mail = new PHPMailer();
-    $mail->IsSMTP(); // Define que a mensagem será SMTP
-    $mail->Host = 'br62.hostgator.com.br'; // Endereço do servidor SMTP
-    $mail->SMTPAuth = true; // Usa autenticação SMTP? (opcional)
-    $mail->SMTPSecure = 'ssl';
-    $mail->Port = 465;
-    $mail->Username = 'suporte@setdelivery.com.br'; // Usuário do servidor SMTP
-    $mail->Password = 'mudar@123'; // Senha do servidor SMTP         
-    $mail->From = 'suporte@setdelivery.com.br'; // Seu e-mail
-    $mail->FromName = "setDelivery ©"; // Seu nome
-    //$mail->AddAddress('contato@verticalle.com.br', 'Verticalle Elevadores');
-    $mail->AddAddress('mssistemasbr@gmail.com');
-    $mail->IsHTML(true); // Define que o e-mail será enviado como HTML
-    //$mail->SMTPDebug = 2;
-    //$mail->CharSet = 'iso-8859-1'; // Charset da mensagem (opcional)
-    // Define a mensagem (Texto e Assunto)
-    // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-    $mail->Subject = 'Assunto Teste'; // Assunto da mensagem
-    // if ($corpoEmail != "" || $corpoEmail != null) {
-    $mail->Body = $mensagem;
-    // }
-    //$mail->AltBody = "Este é o corpo da mensagem de teste,";
-    // Envia o e-mail
-    $enviado = $mail->Send();
-
-    // Limpa os destinatários e os anexos
-    $mail->ClearAllRecipients();
-    $mail->ClearAttachments();
-}
-
-?>

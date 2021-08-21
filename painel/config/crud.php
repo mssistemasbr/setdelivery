@@ -1,5 +1,9 @@
 <?php
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
 class Crud extends PDO {
 
     var $tabela;
@@ -220,6 +224,45 @@ class Crud extends PDO {
         } catch (PDOException $ex) {
             echo "Erro ao tentar desconectar: " . $ex->getMessage();
         }
+    }
+
+    public function enviarEmail($destinatario, $modelo_email) {
+
+        if ($modelo_email == 1) {
+           ob_start();
+            include '../../modelos_email/modelo_bemvindo_01.php';
+            $mensagem = ob_get_clean();
+            $assunto = 'Seja bem vindo =)';
+        }
+
+        // Inicia a classe PHPMailer
+        $mail = new PHPMailer();
+        $mail->IsSMTP(); // Define que a mensagem será SMTP
+        $mail->Host = 'br62.hostgator.com.br'; // Endereço do servidor SMTP
+        $mail->SMTPAuth = true; // Usa autenticação SMTP? (opcional)
+        $mail->SMTPSecure = 'ssl';
+        $mail->Port = 465;
+        $mail->Username = 'suporte@setdelivery.com.br'; // Usuário do servidor SMTP
+        $mail->Password = 'mudar@123'; // Senha do servidor SMTP         
+        $mail->From = 'suporte@setdelivery.com.br'; // Seu e-mail
+        $mail->FromName = utf8_decode("setDelivery ©"); // Seu nome
+        //$mail->AddAddress('contato@verticalle.com.br', 'Verticalle Elevadores');
+        $mail->AddAddress($destinatario);
+        $mail->IsHTML(true); // Define que o e-mail será enviado como HTML
+        //$mail->SMTPDebug = 2;
+        $mail->CharSet = 'iso-8859-1'; // Charset da mensagem (opcional)
+        // Define a mensagem (Texto e Assunto)
+        // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+        $mail->Subject = $assunto; // Assunto da mensagem
+        //
+        $mail->Body = $mensagem;
+        //$mail->AltBody = "Este é o corpo da mensagem de teste,";
+        // Envia o e-mail
+        $enviado = $mail->Send();
+
+        // Limpa os destinatários e os anexos
+        $mail->ClearAllRecipients();
+        $mail->ClearAttachments();
     }
 
 }

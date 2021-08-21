@@ -60,7 +60,7 @@ endif;
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ativo">Ativo</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <label class="switch">
-
+                                        <input type="checkbox" name="ativo" <?= ($ativo == "S" ? 'checked' : '') ?> />
                                         <span class="slider round"></span>
                                     </label>
                                 </div>

@@ -9,17 +9,23 @@ class ClienteControle extends Crud {
 
         try {
             if ($this->clienteModelo->getIdCliente() == 0):
-                $id = parent::inserir("cliente", "id_cliente,nome_cliente,telefone_celular,email,senha",
+                $id = parent::inserir("cliente", "id_cliente,nome_cliente,telefone_celular,email,senha,data_cadastro,hora_cadastro,tipo_cadastro",
                                 $this->clienteModelo->getIdCliente() . "|" .
                                 $this->clienteModelo->getNomeCliente() . "|" .
                                 $this->clienteModelo->getTelefoneCelular() . "|" .
                                 $this->clienteModelo->getEmail() . "|" .
-                                $this->clienteModelo->getSenha());
+                                $this->clienteModelo->getSenha() . "|" .
+                                $this->clienteModelo->getDataCadastro() . "|" .
+                                $this->clienteModelo->getHoraCadastro() . "|" .
+                                $this->clienteModelo->getTipoCadastro());
             else:
-                parent::atualizar("cliente", "nome_cliente,telefone_celular,senha,",
+                parent::atualizar("cliente", "nome_cliente,telefone_celular,senha,data_alteracao,hora_alteracao,tipo_alteracao",
                         $this->clienteModelo->getNomeCliente() . "|" .
                         $this->clienteModelo->getTelefoneCelular() . "|" .
                         $this->clienteModelo->getSenha() . "|" .
+                        $this->clienteModelo->getDataAlteracao() . "|" .
+                        $this->clienteModelo->getHoraAlteracao() . "|" .
+                        $this->clienteModelo->getTipoAlteracao() . "|" .
                         $this->clienteModelo->getIdCliente(), "id_cliente = ?");
                 $id = $this->clienteModelo->getIdCliente();
             endif;
@@ -73,7 +79,7 @@ class ClienteControle extends Crud {
 
     public function enviaEmail() {
         try {
-            parent::enviarEmail('ada','fdgfdgf',"hgfhghf");
+            parent::enviarEmail('ada', 'fdgfdgf', "hgfhghf");
         } catch (Exception $ex) {
             print($e->getMessage());
         }
