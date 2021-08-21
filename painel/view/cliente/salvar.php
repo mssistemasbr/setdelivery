@@ -1,21 +1,15 @@
 <?php
 
 session_start();
-ini_set('display_errors', 1);
-ini_set('display_startup_erros', 1);
+ini_set('display_errors', 0);
+ini_set('display_startup_erros', 0);
 error_reporting(E_ALL);
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
-
 require '../../vendor/autoload.php';
-
 
 include ("../../config/crud.php");
 include ("../../controle/clienteControle.php");
 include ("../../modelo/clienteModelo.php");
-include ("../../modelos_email/constantes.php");
 include ("../../controle/empresaControle.php");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') :
@@ -31,7 +25,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') :
         $telefone_celular = $t->checkTelefoneCliente($_POST['telefone_celular']);
     endif;
 
-    if ($email == $_POST['email']):
+
+
+    if ($email == $_POST['email'] && $_POST['id'] != 0):
         echo 'errorEmail';
     elseif ($telefone_celular == $_POST['telefone_celular']):
         echo 'erroTelefone';
@@ -66,9 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') :
             echo 'trueSalvar';
 
             // enviar email de boas-vindas.
-            // enviar email de boas-vindas.
             $emailc = new ClienteControle();
-            $emailc->enviaEmail($_POST['email'], 1);
+            $emailc->enviarEmail($_POST['email'], 1);
         } else {
             echo 'errorCadastrar';
         }

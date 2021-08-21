@@ -120,6 +120,7 @@ class ClienteModelo {
         $this->tipoAlteracao = $tipoAlteracao;
     }
 
+
 }
 
 ?>

@@ -9,7 +9,7 @@ class ClienteControle extends Crud {
 
         try {
             if ($this->clienteModelo->getIdCliente() == 0):
-                $id = parent::inserir("cliente", "id_cliente,nome_cliente,telefone_celular,email,senha,data_cadastro,hora_cadastro,tipo_cadastro",
+                $id = parent::inserir("cliente", "id_cliente,nome_cliente,telefone_celular,email,senha,data_cadastro,hora_cadastro,tipo_cadastro,ativo",
                                 $this->clienteModelo->getIdCliente() . "|" .
                                 $this->clienteModelo->getNomeCliente() . "|" .
                                 $this->clienteModelo->getTelefoneCelular() . "|" .
@@ -17,15 +17,17 @@ class ClienteControle extends Crud {
                                 $this->clienteModelo->getSenha() . "|" .
                                 $this->clienteModelo->getDataCadastro() . "|" .
                                 $this->clienteModelo->getHoraCadastro() . "|" .
-                                $this->clienteModelo->getTipoCadastro());
+                                $this->clienteModelo->getTipoCadastro() . "|" .
+                                $this->clienteModelo->getAtivo());
             else:
-                parent::atualizar("cliente", "nome_cliente,telefone_celular,senha,data_alteracao,hora_alteracao,tipo_alteracao",
+                parent::atualizar("cliente", "nome_cliente,telefone_celular,senha,data_alteracao,hora_alteracao,tipo_alteracao,ativo,",
                         $this->clienteModelo->getNomeCliente() . "|" .
                         $this->clienteModelo->getTelefoneCelular() . "|" .
                         $this->clienteModelo->getSenha() . "|" .
                         $this->clienteModelo->getDataAlteracao() . "|" .
                         $this->clienteModelo->getHoraAlteracao() . "|" .
                         $this->clienteModelo->getTipoAlteracao() . "|" .
+                        $this->clienteModelo->getAtivo() . "|" . 
                         $this->clienteModelo->getIdCliente(), "id_cliente = ?");
                 $id = $this->clienteModelo->getIdCliente();
             endif;
@@ -73,14 +75,6 @@ class ClienteControle extends Crud {
             endforeach;
             return($checkTelefone);
         } catch (Exception $e) {
-            print($e->getMessage());
-        }
-    }
-
-    public function enviaEmail() {
-        try {
-            parent::enviarEmail('ada', 'fdgfdgf', "hgfhghf");
-        } catch (Exception $ex) {
             print($e->getMessage());
         }
     }
