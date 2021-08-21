@@ -171,6 +171,15 @@ class ProdutoControle extends Crud {
             print($e->getMessage());
         }
     }
+    
+    public function selectgraficoDashboard_RankingProduto() {
+        try {
+            $sql = parent::selecionarJoin("item_pedido i", "sum(i.qtde) as qtde,p.nome_produto", "INNER JOIN produto p on (p.id_produto = i.id_produto) group by 2 order by qtde desc limit 5");
+            return($sql);
+        } catch (Exception $e) {
+            print($e->getMessage());
+        }
+    }
 
 }
 

@@ -117,13 +117,55 @@ else:
     $dia2Anterior = date_format($data_2dia, "d-m-Y");
 endif;
 
-// Ranking Produtos - 10 mais vendidos
-$usuarioTotalHj = new UsuarioControle();
-$sqlusuarioTotalHj = json_decode($usuarioTotalHj->contadorUsuarioTotalHoje());
-if (!empty($sqlusuarioTotalHj)) :
-    foreach ($sqlusuarioTotalHj as $registro):
-        $ranking = 5; //utf8_decode($registro->qtdeReg);
+// Ranking Produtos - 5 mais vendidos
+$produtoRanking = new ProdutoControle();
+$sqlprodutoRanking = json_decode($produtoRanking->selectgraficoDashboard_RankingProduto());
+$j = 1;
+$produto1 = "-";
+$qtde1 = 0;
+$produto2 = " -";
+$qtde2 = 0;
+$produto3 = "-";
+$qtde3 = 0;
+$produto4 = "-";
+$qtde4 = 0;
+$produto5 = "-";
+$qtde5 = 0;
+if (!empty($sqlprodutoRanking)) :
+    foreach ($sqlprodutoRanking as $registro):
+        if ($j == 1) {
+            $qtde1 = utf8_decode($registro->qtde);
+            $produto1 = utf8_decode($registro->nome_produto);
+            $j++;
+        } else if ($j == 2) {
+            $qtde2 = utf8_decode($registro->qtde);
+            $produto2 = utf8_decode($registro->nome_produto);
+            $j++;
+        } else if ($j == 3) {
+            $qtde3 = utf8_decode($registro->qtde);
+            $produto3 = utf8_decode($registro->nome_produto);
+            $j++;
+        } else if ($j == 4) {
+            $qtde4 = utf8_decode($registro->qtde);
+            $produto4 = utf8_decode($registro->nome_produto);
+            $j++;
+        } else if ($j == 5) {
+            $qtde5 = utf8_decode($registro->qtde);
+            $produto5 = utf8_decode($registro->nome_produto);
+            $j++;
+        }
     endforeach;
+else:
+    $produto1 = "-";
+    $qtde1 = 0;
+    $produto2 = " -";
+    $qtde2 = 0;
+    $produto3 = "-";
+    $qtde3 = 0;
+    $produto4 = "-";
+    $qtde4 = 0;
+    $produto5 = "-";
+    $qtde5 = 0;
 endif;
 ?>
 <!DOCTYPE html>
@@ -151,7 +193,7 @@ endif;
         <!-- JQVMap -->
         <link href="./vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
         <!-- Switchery -->
-        <link href=./vendors/switchery/dist/switchery.min.css" rel="stylesheet">
+        <link href="./vendors/switchery/dist/switchery.min.css" rel="stylesheet">
         <!-- bootstrap-daterangepicker -->
         <link href="./vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
         <!-- bootstrap-datetimepicker -->
@@ -230,7 +272,7 @@ endif;
         <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
     </head>
 
-    <body class="nav-md" onload="init_grafico_pizza_produtos(<?= $totalProduto ?>,<?= $totalProdutoHj ?>); init_grafico_pizza_usuarios(<?= $totalUsuario ?>,<?= $totalUsuarioHj ?>);  init_grafico_pizza_pedidos(<?= $totalPedidosHj ?>);">        
+    <body class="nav-md" onload="init_grafico_pizza_produtos(<?= $totalProduto ?>,<?= $totalProdutoHj ?>); init_grafico_pizza_usuarios(<?= $totalUsuario ?>,<?= $totalUsuarioHj ?>);  init_grafico_pizza_pedidos(<?= $totalPedidosHj ?>); inicia_grafico_barra('<?= $produto1 ?>', <?= $qtde1 ?>, '<?= $produto2 ?>', <?= $qtde2 ?>, '<?= $produto3 ?>', <?= $qtde3 ?>, '<?= $produto4 ?>', <?= $qtde4 ?>, '<?= $produto5 ?>', <?= $qtde5 ?>);">        
         <div class="container body">
             <div id = "msg-sucess" class = "alert alert-success" role = "alert" style = "text-align: center">
                 <strong></strong>
@@ -487,6 +529,10 @@ endif;
         <script src="./js/checkboxe-toggle.js"></script>
         <!-- JQuery -->
         <script src="js/bootstrap-datetimepicker.min.js"></script>
+
+        <!-- Gráfico de barras -->
+        <script src="./vendors/raphael/raphael.min.js"></script>
+        <script src="./vendors/morris.js/morris.min.js"></script>
 
 
 

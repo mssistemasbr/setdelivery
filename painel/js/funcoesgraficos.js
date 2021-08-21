@@ -73,6 +73,41 @@ function init_grafico_pizza_pedidos(totalPedidosHj) {
     }
 }
 
+function inicia_grafico_barra(produto1, qtde1, produto2, qtde2, produto3, qtde3, produto4, qtde4, produto5, qtde5) {
+    "undefined" != typeof Morris && (console.log("inicia_grafico_barra"), $("#grafico_barra").length && Morris.Bar({
+        element: "grafico_barra",
+        data: [{
+                produto: produto1,
+                quantidade: qtde1
+            }, {
+                produto: produto2,
+                quantidade: qtde2
+            },
+            {
+                produto: produto3,
+                quantidade: qtde3
+            },
+            {
+                produto: produto4,
+                quantidade: qtde4
+            },
+            {
+                produto: produto5,
+                quantidade: qtde5
+            }
+        ],
+        xkey: "produto",
+        ykeys: ["quantidade"],
+        labels: ["Quantidade"],
+        barRatio: .4,
+        barColors: ["#26B99A", "#34495E", "#ACADAC", "#3498DB"],
+        xLabelAngle: 40,
+        hideHover: "auto",
+        resize: !0
+    }));
+}
+
+
 $(document).ready(function ($) {
 
 });
