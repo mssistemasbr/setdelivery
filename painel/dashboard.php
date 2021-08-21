@@ -164,7 +164,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <div id="graficoBarra_RankingProdutos"> </div>
+                                    <div id="grafico_barra" style="width:100%; height:200px;"></div>
                                 </td>
                             </tr>
                         </table>
