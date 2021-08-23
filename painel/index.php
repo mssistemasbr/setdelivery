@@ -244,7 +244,7 @@ endif;
                 background-image: url('img/loading.gif');
             }
 
-            #msg-sucess,#msg-error,#btn-confirm,#btn-alterar{
+            #msg-sucess,#msg-error,#btn-confirm,#btn-alterar,#btn-ver-enderecos {
                 display: none;
             }
 
@@ -427,12 +427,27 @@ endif;
                     </div>
                 </div>
 
-                <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal-alterar">
+                <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal-alterar2">
                     <div class="modal-dialog modal-sm">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 <h4 class="modal-title" id="myModalLabel">Erro ! Favor selecionar apenas um item para alteração!</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal para ver os endereços dos clientes -->
+                <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modal-ver-enderecos">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">Meus Endereços</h4>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" id="modal-btn-si">Novo Endereço</button>
                             </div>
                         </div>
                     </div>

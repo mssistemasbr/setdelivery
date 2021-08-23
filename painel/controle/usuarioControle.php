@@ -162,6 +162,13 @@ class UsuarioControle extends Crud {
         }
     }
 
-}
+    public function buscarUsuarioEmail($email) {
+        try {
+            $sql = parent::selecionar("usuario", "id,nome,cpf,telefone,email,senha,status,empresa", "email = '".$email."'");
+            return($sql);
+        } catch (Exception $e) {
+            print($e->getMessage());
+        }
+    }
 
-?>
+}

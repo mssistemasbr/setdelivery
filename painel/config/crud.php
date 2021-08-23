@@ -233,6 +233,11 @@ class Crud extends PDO {
             include '../../modelos_email/modelo_bemvindo_01.php';
             $mensagem = ob_get_clean();
             $assunto = 'Seja bem vindo =)';
+        } else if ($modelo_email == 2) {
+            ob_start();
+            include '.../../../modelos_email/modelo_esqueceusenha_usuario_01.php';
+            $mensagem = ob_get_clean();
+            $assunto = 'Esqueci minha senha...';
         }
 
         // Inicia a classe PHPMailer

@@ -112,6 +112,8 @@ $(document).ready(function ($) {
                     }, 5000);
                 } else if (data === 'errorEmail') {
                     msgError('E-mail ja existente !');
+                } else if (data === 'erroTelefone') {
+                    msgError('Telefone celular já existente !');
                 } else {
                     msgError('Erro ao tentar cadastrar ou alterar! ' + data);
                 }
@@ -128,24 +130,24 @@ $(document).ready(function ($) {
     var delay = 200;
     var prevent = false;
     $("table tbody tr")
-            .on("click", function () {
-                $(this).removeClass("even");
-                $(this).removeClass("odd");
-                var tr = $(this);
-                timer = setTimeout(function () {
-                    if (!prevent) {
-                        selecionar(tr.attr("class"), tr);
-                    }
-                    prevent = false;
-                }, delay);
-            })
-            .on("dblclick", function () {
-                var tr = $(this);
-                clearTimeout(timer);
-                prevent = true;
-                var id = tr.attr("class");
-                window.location.href = "?pg=" + $("#area").val() + '&id=' + id;
-            });
+        .on("click", function () {
+            $(this).removeClass("even");
+            $(this).removeClass("odd");
+            var tr = $(this);
+            timer = setTimeout(function () {
+                if (!prevent) {
+                    selecionar(tr.attr("class"), tr);
+                }
+                prevent = false;
+            }, delay);
+        })
+        .on("dblclick", function () {
+            var tr = $(this);
+            clearTimeout(timer);
+            prevent = true;
+            var id = tr.attr("class");
+            window.location.href = "?pg=" + $("#area").val() + '&id=' + id;
+        });
     //Chamar Alterar dados
     $("#btn-alterar").click(function () {
         if (arrayId.length > 1) {
@@ -183,7 +185,7 @@ $(document).ready(function ($) {
                         $('#divCarregando').fadeIn();
                     },
                     url: 'view/' + caminho + '/excluir.php',
-                    data: {id: ids},
+                    data: { id: ids },
                     type: 'POST',
                     dataType: "html",
                     success: function (data) {
@@ -208,25 +210,36 @@ $(document).ready(function ($) {
             //alert("NO CONFIRMADO");
         }
     });
-//Preencher cidade ao escolher estado
+
+
+    // Modal para exibir os endereços dos clientes (clientes.php)
+    $("#btn-ver-enderecos").click(function () {
+        $("#modal-ver-enderecos").modal('show');
+        return;
+    });
+
+
+
+    //Preencher cidade ao escolher estado
     $('#estado').change(function () {
         if ($(this).val()) {
             $('#divCarregando').fadeIn();
             $.getJSON(
-                    'view/cliente/json_cidade.php?estado=' + $(this).val(),
-                    function (j) {
-                        var options = '<option value="">Selecione</option>';
-                        for (var i = 0; i < j.length; i++) {
-                            options += '<option value="' +
-                                    j[i].id + '">' +
-                                    decodeURIComponent(escape(j[i].nome)) + '</option>';
-                        }
-                        $('#cidades').html(options).show();
-                        $('#divCarregando').fadeOut('slow');
-                    });
+                'view/cliente/json_cidade.php?estado=' + $(this).val(),
+                function (j) {
+                    var options = '<option value="">Selecione</option>';
+                    for (var i = 0; i < j.length; i++) {
+                        options += '<option value="' +
+                            j[i].id + '">' +
+                            decodeURIComponent(escape(j[i].nome)) + '</option>';
+                    }
+                    $('#cidades').html(options).show();
+                    $('#divCarregando').fadeOut('slow');
+                });
         }
     });
-    $("#taxa").inputmask('currency', {"autoUnmask": true,
+    $("#taxa").inputmask('currency', {
+        "autoUnmask": true,
         radixPoint: ",",
         groupSeparator: ".",
         allowMinus: false,
@@ -236,7 +249,8 @@ $(document).ready(function ($) {
         rightAlign: true,
         unmaskAsNumber: true
     });
-    $("#valor").inputmask('currency', {"autoUnmask": true,
+    $("#valor").inputmask('currency', {
+        "autoUnmask": true,
         radixPoint: ",",
         groupSeparator: ".",
         allowMinus: false,
@@ -256,6 +270,7 @@ $(document).ready(function ($) {
 
     verifica_horario();
 });
+
 function msgSucess(msg) {
     $('#msg-sucess strong').text(msg);
     $('#msg-sucess').fadeIn('slow');
@@ -284,9 +299,11 @@ function selecionar(id, tr) {
     if (arrayId.length === 0) {
         $('#btn-alterar').hide();
         $('#btn-confirm').hide();
+        $('#btn-ver-enderecos').hide();  // botão para ver o endereço do cliente
     } else {
         $('#btn-alterar').show();
         $('#btn-confirm').show();
+        $('#btn-ver-enderecos').show();  // botão para ver o endereço do cliente
     }
 }
 
@@ -351,13 +368,13 @@ function disableScrolling() {
 }
 
 function enableScrolling() {
-    window.onscroll = function () {};
+    window.onscroll = function () { };
 }
 
 function abrirModal() {
     Height = $(document).height();
     Width = $(window).width();
-    $('#modal').css({'width': Width, 'height': Height});
+    $('#modal').css({ 'width': Width, 'height': Height });
     $('#modal').fadeIn();
 }
 
@@ -385,7 +402,7 @@ function alterarRevisao(id, url) {
     event.preventDefault();
     $.ajax({
         url: 'alt_revisao.php',
-        data: {id: id},
+        data: { id: id },
         type: 'POST',
         dataType: "html",
         success: function (retorno) {
@@ -407,17 +424,13 @@ function alterarRevisao(id, url) {
 
 function verifica_horario() {
     now = new Date
-    if (now.getHours() >= 0 && now.getHours() < 5)
-    {
+    if (now.getHours() >= 0 && now.getHours() < 5) {
         $("#bemVindo").html("Boa noite, ");
-    } else if (now.getHours() >= 5 && now.getHours() < 12)
-    {
+    } else if (now.getHours() >= 5 && now.getHours() < 12) {
         $("#bemVindo").html("Bom dia, ");
-    } else if (now.getHours() >= 12 && now.getHours() < 18)
-    {
+    } else if (now.getHours() >= 12 && now.getHours() < 18) {
         $("#bemVindo").html("Boa tarde,");
-    } else
-    {
+    } else {
         $("#bemVindo").html("Boa noite, ");
     }
 }
