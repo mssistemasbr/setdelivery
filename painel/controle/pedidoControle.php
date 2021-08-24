@@ -6,49 +6,42 @@ class PedidoControle extends Crud {
 
     public function salvarPedido(PedidoModelo $pedidoModelo) {
         $this->pedidoModelo = $pedidoModelo;
-        
-        /*
         try {
-            if ($this->pedidoModelo->getId() == 0):
-                $id = parent::inserir("pedido", "id_empresa,nome_empresa,apelido,telefone_principal,cidade,estado,empresa_aberta,mensagem_usuario_01,mensagem_usuario_02,status,tipo_cadastro,data_cadastro,hora_cadastro",
-                                $this->pedidoModelo->getId() . "|" .
-                                $this->pedidoModelo->getNome() . "|" .
-                                $this->pedidoModelo->getApelido() . "|" .
-                                $this->pedidoModelo->getTelefone() . "|" .
-                                $this->pedidoModelo->getCidade() . "|" .
-                                $this->pedidoModelo->getEstado() . "|" .
-                                $this->pedidoModelo->getEmpresa_aberta() . "|" .
-                                $this->pedidoModelo->getMensagem_usuario_01() . "|" .
-                                $this->pedidoModelo->getMensagem_usuario_02() . "|" .
+            if ($this->pedidoModelo->getIdPedido() == 0):
+                $id = parent::inserir("pedido", "id_pedido,data_pedido,hora_pedido,id_cliente,status,total_pedido,taxa_entrega,obs_pedido,pedido_ja_pago",
+                                $this->pedidoModelo->getIdPedido() . "|" .
+                                $this->pedidoModelo->getDataPedido() . "|" .
+                                $this->pedidoModelo->getHoraPedido() . "|" .
+                                $this->pedidoModelo->getIdCliente() . "|" .
                                 $this->pedidoModelo->getStatus() . "|" .
-                                $this->pedidoModelo->getTipoCadastro() . "|" .
-                                $this->pedidoModelo->getDataCadastro() . "|" .
-                                $this->pedidoModelo->getHoraCadastro());
+                                $this->pedidoModelo->getTotalPedido() . "|" .
+                                $this->pedidoModelo->getTaxaEntrega() . "|" .
+                                $this->pedidoModelo->getObsPedido() . "|" .
+                                $this->pedidoModelo->getPedidoPago());
             else:
-                parent::atualizar("pedido", "nome_empresa,apelido,telefone_principal,cidade,estado,empresa_aberta,mensagem_usuario_01,mensagem_usuario_02,status,tipo_alteracao,data_alteracao,hora_alteracao,",
-                        $this->pedidoModelo->getNome() . "|" .
-                        $this->pedidoModelo->getApelido() . "|" .
-                        $this->pedidoModelo->getTelefone() . "|" .
-                        $this->pedidoModelo->getCidade() . "|" .
-                        $this->pedidoModelo->getEstado() . "|" .
-                        $this->pedidoModelo->getEmpresa_aberta() . "|" .
-                        $this->pedidoModelo->getMensagem_usuario_01() . "|" .
-                        $this->pedidoModelo->getMensagem_usuario_02() . "|" .
+                parent::atualizar("pedido", "data_pedido,hora_pedido,id_cliente,status,total_pedido,taxa_entrega,obs_pedido,id_tipo_pizza,id_tamanho_pizza,previsao_entrega,data_cancelado,hora_cancelado,motivo_cancelado",
+                        $this->pedidoModelo->getDataPedido() . "|" .
+                        $this->pedidoModelo->getHoraPedido() . "|" .
+                        $this->pedidoModelo->getIdCliente() . "|" .
                         $this->pedidoModelo->getStatus() . "|" .
-                        $this->pedidoModelo->getTipoAlteracao() . "|" .
-                        $this->pedidoModelo->getDataAlteracao() . "|" .
-                        $this->pedidoModelo->getHoraAlteracao() . "|" .
-                        $this->pedidoModelo->getId(), "id_empresa = ?");
-                $id = $this->pedidoModelo->getId();
+                        $this->pedidoModelo->getTotalPedido() . "|" .
+                        $this->pedidoModelo->getTaxaEntrega() . "|" .
+                        $this->pedidoModelo->getObsPedido() . "|" .
+                        $this->pedidoModelo->getPedidoPago() . "|" .
+                        $this->pedidoModelo->getIdTipoPizza() . "|" .
+                        $this->pedidoModelo->getIdTamPizza() . "|" .
+                        $this->pedidoModelo->getPrevisaoEntrega() . "|" .
+                        $this->pedidoModelo->getDataCancelado() . "|" .
+                        $this->pedidoModelo->getHoraCancelado() . "|" .
+                        $this->pedidoModelo->getMotivoCancelado() . "|" .
+                        $this->pedidoModelo->getIdPedido(), "id_pedido = ?");
+                $id = $this->pedidoModelo->getIdPedido();
             endif;
             return($id);
         } catch (PDOException $e) {
             echo($e->getMessage());
         }
-        */
     }
-    
-    
 
     public function buscarTodosPedidos() {
         try {

@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 include ("./painel/config/crud.php");
 include ("./painel/controle/itemPedidoControle.php");
 $sqlItemPedido = new ItemPedidoControle();
-$objItemPedido = json_decode($sqlItemPedido->buscarItemPedidoSessao($_POST['sessao']));
+$objItemPedido = json_decode($sqlItemPedido->buscarItemPedidoSessao($_POST['sessao'], 0));
 if (count($objItemPedido) > 0):
     $i = 0;
     foreach ($objItemPedido as $item):

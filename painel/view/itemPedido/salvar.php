@@ -11,14 +11,15 @@ include ("../../modelo/itemPedidoModelo.php");
 if ($_SERVER['REQUEST_METHOD'] == 'POST') :
 
     $itemPedidoModelo = new ItemPedidoModelo();
-    $itemPedidoModelo->setIdItem((int) $_POST['idItem']);
-    $itemPedidoModelo->setIdPedido((int) $_POST['idPedido']);
-    $itemPedidoModelo->setIdProduto((int) $_POST['idProduto']);
-    $itemPedidoModelo->setIdTipoPizza((int) $_POST['idTipoPizza']);
-    $itemPedidoModelo->setIdTamPizza((int) intval($_POST['idTamPizza']));
-    $itemPedidoModelo->setIdAcresPizza((int) intval($_POST['idAcrescimoPizza']));
-    $itemPedidoModelo->setIdBordaPizza((int) intval($_POST['idBordaPizza']));
-    $itemPedidoModelo->setQuantidade($_POST['qtde']);
+    $itemPedidoModelo->setIdItem(intval($_POST['idItem']));
+    $itemPedidoModelo->setIdPedido(intval($_POST['idPedido']));
+    $itemPedidoModelo->setIdProduto(intval($_POST['idProduto']));
+    $itemPedidoModelo->setIdTipoPizza(intval($_POST['idTipoPizza']));
+    $itemPedidoModelo->setIdTamPizza(intval($_POST['idTamPizza']));
+    $itemPedidoModelo->setIdAcresPizza(intval($_POST['idAcrescimoPizza']));
+    $itemPedidoModelo->setIdBordaPizza(intval($_POST['idBordaPizza']));
+    $itemPedidoModelo->setQuantidade(doubleval($_POST['qtde']));
+    $itemPedidoModelo->setObs($_POST['obs']);
     $itemPedidoModelo->setSessao($_POST['sessao']);
 
     $itemPedidoControle = new ItemPedidoControle();

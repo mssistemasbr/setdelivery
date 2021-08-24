@@ -5,10 +5,6 @@ ini_set('display_errors', 0);
 ini_set('display_startup_erros', 0);
 error_reporting(E_ALL);
 
-if (isset($renovar)):
-    session_regenerate_id();
-endif;
-
 $idCliente = 0;
 
 include './painel/config/crud.php';
@@ -163,10 +159,10 @@ $objAcrescimo = json_decode($sqlProdutoA->buscarProdutoCategoria("A"));
                                 <img src="assets/img/img-meu-pedido.png"/>
                             </div>
                             <div class="card-body" style="padding: 0;">
-                                <ol class="list-group" id="itens-pedido">
+                                <ol class="list-group" id="itens-pedido" style="height: 400px;">
                                     <?php
                                     $sqlItemPedido = new ItemPedidoControle();
-                                    $objItemPedido = json_decode($sqlItemPedido->buscarItemPedidoSessao(session_id()));
+                                    $objItemPedido = json_decode($sqlItemPedido->buscarItemPedidoSessao(session_id(), 0));
                                     if (count($objItemPedido) > 0):
                                         $i = 0;
                                         foreach ($objItemPedido as $item):
@@ -189,6 +185,7 @@ $objAcrescimo = json_decode($sqlProdutoA->buscarProdutoCategoria("A"));
                                         endforeach;
                                     endif;
                                     ?>
+                                    <button type="button" onclick="finalizarPedido();" class="btn btn-primary m-2 p-2">Finalizar Pedido</button>
                                 </ol>
                             </div>
                             <div class="card-footer text-muted" style="font-size: 1.5rem;font-weight: bold">

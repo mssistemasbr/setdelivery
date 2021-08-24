@@ -4,7 +4,8 @@
  * and open the template in the editor.
  */
 
-var estagioPedido = 0, idTipoPizza = 0, idTamPizza = 0, idProduto = 0, idBordaPizza = 0, idAcrescimoPizza = 0, idItem = 0;
+var estagioPedido = 0, idTipoPizza = 0, idTamPizza = 0, idProduto = 0;
+var idBordaPizza = 0, idAcrescimoPizza = 0, idItem = 0, obs, qtde = 1.0, valorTotal;
 
 $(document).ready(function ($) {
     var myCarousel = document.querySelector('#carouselExampleControls');
@@ -99,8 +100,8 @@ $(document).ready(function ($) {
         });
         return false;
     });
-});
 
+});
 
 function somaQtdeItem(parametro, inputQtd) {
     if (parametro === 0) {
@@ -189,18 +190,20 @@ function validaProdutoObs() {
 }
 
 function salvarItemPedido() {
+    alert($("#obsPizza").val());
     $.ajax({
         url: 'painel/view/itemPedido/salvar.php',
         type: 'POST',
         data: {
             idItem: idItem,
             idPedido: 0,
-            qtde: 1,
+            qtde: qtde,
             idProduto: idProduto,
             idTipoPizza: idTipoPizza,
             idTamPizza: idTamPizza,
             idAcrescimoPizza: idAcrescimoPizza === '' ? 'NULL' : idAcrescimoPizza,
             idBordaPizza: idBordaPizza === '' ? 'NULL' : idBordaPizza,
+            obs: $("#obsPizza").val(),
             sessao: $("#idSessao").val()
         },
         beforeSend: function () {
@@ -229,8 +232,9 @@ function carregarItensPedido() {
     }).done(function (pedido) {
         //alert(pedido);
         var itens = pedido.split("|");
-        $("#itens-pedido").html(itens[0]);
+        $("#itens-pedido").html(itens[0] + '<button type="button" onclick="finalizarPedido();" class="btn btn-primary m-2 p-2">Finalizar Pedido</button>');
         $('#valor-total').html(parseFloat(itens[1]));
+        valorTotal = parseFloat(itens[1]);
     }).fail(function (jqXHR, textStatus, msg) {
         alert(msg);
     });
@@ -251,6 +255,32 @@ function deletarItemPedido(id) {
         if (msg === "1") {
             carregarItensPedido();
         }
+    }).fail(function (jqXHR, textStatus, msg) {
+        alert(msg);
+    });
+}
+
+function finalizarPedido() {
+    var qtde = '';
+    $('#itens-pedido input#qtd-itens-pedido').each(function () {
+        qtde += $(this).val() + ',';
+    });
+    alert($("#valor-total").html().trim());
+    $.ajax({
+        url: 'painel/view/pedido/salvar.php',
+        type: 'POST',
+        data: {
+            idPedido: 0,
+            qtde: qtde,
+            valorPedido:$("#valor-total").html().trim(),
+            idCliente: 1, //$("#idCliente").val(),
+            sessao: $("#idSessao").val()
+        },
+        beforeSend: function () {
+            alert("ENVIANDO PEDIDO...");
+        }
+    }).done(function (msg) {
+        alert(msg);
     }).fail(function (jqXHR, textStatus, msg) {
         alert(msg);
     });
