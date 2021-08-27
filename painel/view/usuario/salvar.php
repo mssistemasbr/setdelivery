@@ -10,6 +10,7 @@ include ("../../controle/usuarioControle.php");
 include ("../../modelo/usuarioModelo.php");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') :
+
     $usuarioControle = new UsuarioControle();
     if (empty($_POST['id'])):
         $email = $usuarioControle->validaEmail($_POST['email']);
@@ -17,34 +18,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') :
     if ($email == $_POST['email']) :
         echo 'errorEmail';
     else :
-        $situacao = ($_POST['status'] == 'on' ? 1 : 0);
-        $caracter = array(".", "/", "-");
-        $cpf = str_replace($caracter, "", $_POST['cpf']);
+
+        $ativo = ($_POST['ativo'] == 'on' ? "S" : "N");
+        $data = date("Y-m-d");
+        $hora = date("H:i:s");
+        $tipoCadastro = "web";
+        $id_empresa = 1;
+
+        // removendo os caracteres
+        $caracter1 = array(".", "/", "-");
+        $cpf = str_replace($caracter1, "", $_POST['cpf']);
+        
+        $caracter2 = array("(", ")", "-");
+        $telefone = str_replace($caracter2, "", $_POST['telefone']);
 
         $usuarioModelo = new UsuarioModelo();
         $usuarioModelo->setId((int) $_POST['id']);
         $usuarioModelo->setNome($_POST['nome']);
         $usuarioModelo->setCpf($cpf);
-        $usuarioModelo->setTelefone($_POST['telefone']);
+        $usuarioModelo->setTelefone($telefone);
         $usuarioModelo->setEmail($_POST['email']);
         $usuarioModelo->setSenha($_POST['senha']);
-        $usuarioModelo->setStatus((int) $situacao);
-        $usuarioModelo->setEmpresa((int) $_POST['id_empresa']);
-        $usuarioModelo->setModulo($_POST['modulo']);
+        $usuarioModelo->setAtivo($ativo);
+        $usuarioModelo->setDataCadastro($data);
+        $usuarioModelo->setHoraCadastro($hora);
+        $usuarioModelo->setTipoCadastro($tipoCadastro);
+        $usuarioModelo->setDataAlteracao($data);
+        $usuarioModelo->setHoraAlteracao($hora);
+        $usuarioModelo->setTipoAlteracao($tipoCadastro);
+        $usuarioModelo->setEmpresa((int) $id_empresa);
+        //$usuarioModelo->setModulo($_POST['modulo']);
 
         $usuarioControl = new UsuarioControle();
         $id = $usuarioControl->inserirUsuario($usuarioModelo);
 
-        if ($id > 0) {
-            if (!empty($_SESSION["ID_USUARIO"])):
-                $sql = new UsuarioControle();
-                $obj = json_decode($sql->buscarUsuarioId($id));
-                if (!empty($obj)) :
-                    foreach ($obj as $registro):
-                        $_SESSION["NOME_USUARIO"] = $registro->nome;
-                    endforeach;
-                endif;
-            endif;
+        if ((int) $_POST['id'] == $id) {
+            echo 'trueAlterar';
+        } else if ($id > 0) {
             echo 'trueSalvar';
         } else {
             echo 'errorCadastrar';

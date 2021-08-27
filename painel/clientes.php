@@ -11,7 +11,7 @@ $obj = json_decode($sql->buscarTodosClientes());
                 <div class="x_title">
                     <button type="button" id="novo-cad" class="btn btn-success">Novo</button>
                     <button type="button" id="btn-alterar" class="btn btn-info">Alterar</button>
-                    <button type="button" id="btn-ver-enderecos" class="btn btn-danger">Ver Endereços</button>
+                    <button type="button" id="btn-ver-enderecos"  class="btn btn-danger">Ver Endereços</button>
                     <input type="hidden" value="cad_cliente" id="area" />
                     <input type="hidden" value="clientes" id="caminho" />
                     <div class="clearfix"></div>

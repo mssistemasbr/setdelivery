@@ -24,7 +24,7 @@ endif;
             <div class = "col-md-12 col-sm-12 col-xs-12">
                 <div class = "x_panel">
                     <div class = "x_content">
-                        <input type = "hidden" id = "area" value="cliente" />
+                        <input type = "hidden" id = "area" value="clientes" />
                         <form class = "form-horizontal form-label-left" id = "formulario" action = "view/cliente/salvar.php" method = "post" enctype = "multipart/form-data">
                             <input type="hidden" name="id" value="<?= $id ?>" />
                             <span class = "section">Cadastro de Clientes</span>

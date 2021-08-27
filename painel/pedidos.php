@@ -33,16 +33,20 @@ $obj = json_decode($sql->buscarTodosPedidos());
                         <tbody>
                             <?php
                             foreach ($obj as $registro):
+                                
+                                $var_total_pedido1 = $obj->total_pedido;
+                                $var_total_pedido2 = number_format($var_total_pedido1, 2, ",", "."); 
+                                
                                 ?>
                                 <tr class="<?= base64_encode($registro->id_pedido) ?>">
-                                    <td><?= utf8_decode($registro->id_pedido) ?></td>
-                                    <td><?= utf8_decode($registro->nome_cliente) ?></td>
-                                    <td><?= utf8_decode($registro->telefone_celular) ?></td>
-                                    <td><?= utf8_decode($registro->taxa_entrega) ?></td>
-                                    <td><?= utf8_decode($registro->total_pedido) ?></td>
-                                    <td><?= utf8_decode($registro->status) ?></td>                         
-                                    <td><?=  implode('/', array_reverse(explode('-', $registro->data_pedido)))?></td>                                    
-                                    <td><?= utf8_decode($registro->hora_pedido) ?></td>
+                                    <td class="table-danger"><?= utf8_decode($registro->id_pedido) ?></td>
+                                    <td class="table-danger"><?= utf8_decode($registro->nome_cliente) ?></td>
+                                    <td class="table-danger"><?= utf8_decode($registro->telefone_celular) ?></td>
+                                    <td class="table-danger"><?= utf8_decode($registro->taxa_entrega) ?></td>
+                                    <td class="table-danger"><?= utf8_decode($registro->total_pedido) ?></td>
+                                    <td class="table-danger"><?= utf8_decode($registro->status) ?></td>                         
+                                    <td class="table-danger"><?=  implode('/', array_reverse(explode('-', $registro->data_pedido)))?></td>                                    
+                                    <td class="table-danger"><?= utf8_decode($registro->hora_pedido) ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>                        

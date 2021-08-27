@@ -1,6 +1,8 @@
 <?php
-if (isset($_GET['id'])) :
-    $id = base64_decode($_GET['id']);
+session_start();
+
+$id = $_SESSION["ID_USUARIO"];
+if ($id != null || $id != ""):
     $sql = new UsuarioControle();
     $obj = json_decode($sql->buscarUsuarioId($id));
     if (!empty($obj)) :
@@ -25,16 +27,16 @@ endif;
             <div class = "col-md-12 col-sm-12 col-xs-12">
                 <div class = "x_panel">
                     <div class = "x_content">
-                        <input type = "hidden" id = "area" value="usuarios" />
-                        <form class = "form-horizontal form-label-left" id = "formulario" action = "view/usuario/salvar.php" method = "post" enctype = "multipart/form-data">
+                        <input type = "hidden" id = "area" value="dashboard" />
+                        <form class = "form-horizontal form-label-left" id = "formulario" action = "view/cliente/salvar.php" method = "post" enctype = "multipart/form-data">
                             <input type="hidden" name="id" value="<?= $id ?>" />
-                            <span class = "section">Cadastro de Clientes</span>
+                            <span class = "section">Perfil de "<?= $nome ?>"</span>
 
                             <div class = "item form-group">
                                 <label class = "control-label col-md-3 col-sm-3 col-xs-12" for = "nome">Nome <span class = "required">*</span>
                                 </label>
                                 <div class = "col-md-6 col-sm-6 col-xs-12">
-                                    <input id="nome_cliente" value="<?= $nome ?>" class = "form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="nome" placeholder="Nome Usuário" required = "required" type = "text">
+                                    <input id="nome" value="<?= $nome ?>" class = "form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="nome" placeholder="Nome Usuário" required = "required" type = "text">
                                 </div>
                             </div>
 
@@ -42,15 +44,15 @@ endif;
                                 <label class = "control-label col-md-3 col-sm-3 col-xs-12" for = "cpf">Cpf
                                 </label>
                                 <div class = "col-md-6 col-sm-6 col-xs-12">
-                                    <input id="cpf" value="<?= $cpf ?>" class = "form-control col-md-7 col-xs-12" name="cpf" placeholder="Cpf" data-inputmask = "'mask' : '999.999.999-99'" type = "text">
+                                    <input id="cpf" value="<?= $cpf ?>" class = "form-control col-md-7 col-xs-12" name="cpf" placeholder="Cpf" type = "text">
                                 </div>
-                            </div>       
+                            </div>
 
                             <div class = "item form-group">
-                                <label class = "control-label col-md-3 col-sm-3 col-xs-12" for = "telefone">Telefone Celular <span class = "required">*</span>
+                                <label class = "control-label col-md-3 col-sm-3 col-xs-12" for = "telefone_celular">Telefone Celular <span class = "required">*</span>
                                 </label>
                                 <div class = "col-md-6 col-sm-6 col-xs-12">
-                                    <input type = "tel" name = "telefone" value="<?= $telefone ?>" class = "form-control" required = "required" placeholder = "(99) 9 999-9999" data-inputmask = "'mask' : '(99) 9 9999-9999'">
+                                    <input type = "tel" name = "telefone_celular" value="<?= $telefone ?>" class = "form-control" required = "required" placeholder = "(99) 9 999-9999" data-inputmask = "'mask' : '(99) 9 9999-9999'">
                                 </div>
                             </div>
                             <div class = "item form-group">
@@ -79,7 +81,10 @@ endif;
                             <div class = "form-group">
                                 <div class = "col-md-6 col-md-offset-3">
                                     <button id="voltar" type="button" class="btn btn-danger">Cancelar</button>
-                                    <button id="salvar-cad" type = "submit" class = "btn <?= $id == null ? 'btn-success' : 'btn-info' ?>"><?= $id == null ? 'Cadastrar' : 'Alterar' ?></button>
+                                    <?php if ($id != null || $id == 0): ?> 
+                                        <button id="salvar-cad" type="submit" class="btn btn-info">Alterar</button>
+                                    <?php endif; ?>
+
                                 </div>
                             </div>
                         </form>

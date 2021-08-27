@@ -167,6 +167,10 @@ else:
     $produto5 = "-";
     $qtde5 = 0;
 endif;
+
+// Endereços do Cliente
+$enderecoCliente = new ClienteControle();
+$sqlendereco = json_decode($enderecoCliente->buscarEnderecoCliente(1));
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -324,7 +328,7 @@ endif;
                                             endif;
                                             ?>
                                             <li><a href = "?pg=clientes">Clientes</a></li>
-                                            <li><a href = "?pg=usuarios">Usuários</a></li>
+                                            <li><a href = "?pg=usuarios">Usuários (Sistema)</a></li>
                                             <li><a href = "?pg=forma_pagamento">Forma de Pagamento</a></li>
                                             <li><a href = "?pg=horario">Horário de Funcionamento</a></li>
                                             <li><a href = "?pg=local_entrega">Local de Entrega</a></li>
@@ -381,16 +385,11 @@ endif;
                                         <img src = "./production/images/img.jpg" alt = ""><?= (!empty($_SESSION["NOME_EMPRESA"]) ? utf8_decode($_SESSION["NOME_EMPRESA"]) : utf8_decode($_SESSION["NOME_USUARIO"])) ?>
                                         <span class = " fa fa-angle-down"></span>
                                     </a>
+
+
                                     <ul class = "dropdown-menu dropdown-usermenu pull-right">
-                                        <li><a href = "javascript:;"> Profile</a></li>
-                                        <li>
-                                            <a href = "javascript:;">
-                                                <span class = "badge bg-red pull-right">50%</span>
-                                                <span>Settings</span>
-                                            </a>
-                                        </li>
-                                        <li><a href = "javascript:;">Help</a></li>
-                                        <li><a href="#" onclick="logout();"><i class = "fa fa-sign-out pull-right"></i> Log Out</a></li>
+                                        <li><a href="?pg=profile" onclick="#"><i class="fas fa-user-edit"></i>Perfil</a></li>
+                                        <li><a href="#" onclick="logout();"><i class = "fa fa-sign-out pull-right"></i>Sair</a></li>
                                     </ul>
                                 </li>      
 
@@ -440,11 +439,47 @@ endif;
 
                 <!-- Modal para ver os endereços dos clientes -->
                 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modal-ver-enderecos">
-                    <div class="modal-dialog modal-sm">
+                    <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 <h4 class="modal-title" id="myModalLabel">Meus Endereços</h4>
+
+
+
+                                <div class="table-responsive">
+                                    <table id="datatable-buttons" class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Descrição Endereço</th>
+                                                <th>Cep</th>
+                                                <th>Endereço</th>
+                                                <th>Número</th>
+                                                <th>Bairro</th>
+                                                <th>Cidade</th>
+                                                <th>Complemento</th>
+                                                <th>Ponto Referência</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            foreach ($sqlendereco as $registro) :
+                                                ?>
+                                                <tr class="<?= base64_encode($registro->id_endereco_cliente) ?>">
+                                                    <td><?= utf8_decode($registro->descricao_endereco) ?></td>
+                                                    <td><?= utf8_decode($registro->cep) ?></td>
+                                                    <td><?= utf8_decode($registro->endereco) ?></td>
+                                                    <td><?= utf8_decode($registro->numero) ?></td>
+                                                    <td><?= utf8_decode($registro->bairro) ?></td>
+                                                    <td><?= utf8_decode($registro->cidade) ?></td>
+                                                    <td><?= utf8_decode($registro->complemento) ?></td>
+                                                    <td><?= utf8_decode($registro->ponto_referencia) ?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-primary" id="modal-btn-si">Novo Endereço</button>

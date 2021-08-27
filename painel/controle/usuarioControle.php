@@ -7,7 +7,7 @@ class UsuarioControle extends Crud {
     public function validaUsuario(UsuarioModelo $usuarioModelo) {
         $this->usuarioModelo = $usuarioModelo;
         try {
-            $usuario = json_decode(parent::selecionar("usuario", "id,nome,cpf,telefone,email,senha,empresa", "email ='" . $this->usuarioModelo->getEmail() . "'"));
+            $usuario = json_decode(parent::selecionar("usuario", "id,nome,cpf,telefone,email,senha,ativo,empresa", "email ='" . $this->usuarioModelo->getEmail() . "'"));
             if (!empty($usuario)):
                 foreach ($usuario as $us):
                     if ($us->email == $this->usuarioModelo->getEmail() && $us->senha == $this->usuarioModelo->getSenha()):
@@ -81,22 +81,30 @@ class UsuarioControle extends Crud {
     public function inserirUsuario(UsuarioModelo $usuarioModelo) {
         $this->usuarioModelo = $usuarioModelo;
         try {
-            if ($this->usuarioModelo->getId() == ""):
-                $id = parent::inserir("usuario", "id,nome,cpf,telefone,email,senha,status,empresa", $this->usuarioModelo->getId() . "|" .
+            if ($this->usuarioModelo->getId() == 0):
+                $id = parent::inserir("usuario", "id,nome,cpf,telefone,email,senha,ativo,empresa,data_cadastro,hora_cadastro,tipo_cadastro",
+                                $this->usuarioModelo->getId() . "|" .
                                 $this->usuarioModelo->getNome() . "|" .
                                 $this->usuarioModelo->getCpf() . "|" .
                                 $this->usuarioModelo->getTelefone() . "|" .
                                 $this->usuarioModelo->getEmail() . "|" .
                                 $this->usuarioModelo->getSenha() . "|" .
-                                $this->usuarioModelo->getStatus() . "|" .
-                                $this->usuarioModelo->getEmpresa());
+                                $this->usuarioModelo->getAtivo() . "|" .
+                                $this->usuarioModelo->getEmpresa() . "|" .
+                                $this->usuarioModelo->getDataCadastro() . "|" .
+                                $this->usuarioModelo->getHoraCadastro() . "|" .
+                                $this->usuarioModelo->getTipoCadastro());
             else:
-                parent::atualizar("usuario", "nome,cpf,telefone,email,senha,status,", $this->usuarioModelo->getNome() . "|" .
+                parent::atualizar("usuario", "nome,cpf,telefone,email,senha,ativo,data_alteracao,hora_alteracao,tipo_alteracao,",
+                        $this->usuarioModelo->getNome() . "|" .
                         $this->usuarioModelo->getCpf() . "|" .
                         $this->usuarioModelo->getTelefone() . "|" .
                         $this->usuarioModelo->getEmail() . "|" .
                         $this->usuarioModelo->getSenha() . "|" .
-                        $this->usuarioModelo->getStatus() . "|" .
+                        $this->usuarioModelo->getAtivo() . "|" .
+                        $this->usuarioModelo->getDataAlteracao() . "|" .
+                        $this->usuarioModelo->getHoraAlteracao() . "|" .
+                        $this->usuarioModelo->getTipoAlteracao() . "|" .
                         $this->usuarioModelo->getId(), "id = ?");
                 $id = $this->usuarioModelo->getId();
             endif;
@@ -108,7 +116,7 @@ class UsuarioControle extends Crud {
 
     public function buscarUsuarioId($id) {
         try {
-            $sql = parent::selecionar("usuario", "id,nome,cpf,telefone,email,senha,status,empresa", "id = '$id'");
+            $sql = parent::selecionar("usuario", "id,nome,cpf,telefone,email,senha,ativo,empresa", "id = '$id'");
             return($sql);
         } catch (Exception $e) {
             print($e->getMessage());
@@ -129,7 +137,7 @@ class UsuarioControle extends Crud {
 
     public function buscarTodosUsuarios($id_empresa) {
         try {
-            $sql = parent::selecionar("usuario", "id,nome,cpf,telefone,email,senha,status", "1 = 1 AND empresa = '" . $id_empresa . "'");
+            $sql = parent::selecionar("usuario", "id,nome,cpf,telefone,email,senha,ativo", "1 = 1 AND empresa = '" . $id_empresa . "'");
             return($sql);
         } catch (Exception $e) {
             print($e->getMessage());
@@ -143,8 +151,8 @@ class UsuarioControle extends Crud {
             print($e->getMessage());
         }
     }
-    
-        public function contadorUsuarioTotal() {
+
+    public function contadorUsuarioTotal() {
         try {
             $cont = parent::countregistros("usuario", "id", "");
             return($cont);
@@ -152,7 +160,7 @@ class UsuarioControle extends Crud {
             echo $exc->getTraceAsString();
         }
     }
-    
+
     public function contadorUsuarioTotalHoje() {
         try {
             $cont = parent::countregistros("usuario", "id", "data_cadastro=CURRENT_DATE()");
@@ -164,7 +172,7 @@ class UsuarioControle extends Crud {
 
     public function buscarUsuarioEmail($email) {
         try {
-            $sql = parent::selecionar("usuario", "id,nome,cpf,telefone,email,senha,status,empresa", "email = '".$email."'");
+            $sql = parent::selecionar("usuario", "id,nome,cpf,telefone,email,senha,status,ativo", "email = '" . $email . "'");
             return($sql);
         } catch (Exception $e) {
             print($e->getMessage());

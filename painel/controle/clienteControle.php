@@ -86,6 +86,15 @@ class ClienteControle extends Crud {
             print($e->getMessage());
         }
     }
+    
+    public function buscarEnderecoCliente($idCliente) {
+        try {
+            $sql = parent::selecionar("endereco_cliente e", "e.id_endereco_cliente,e.descricao_endereco,e.cep,e.endereco,e.numero,e.bairro,e.cidade,e.complemento,e.ponto_referencia", "id_cliente = '" . $idCliente . "'");
+            return($sql);
+        } catch (PDOException $e) {
+            print($e->getMessage());
+        }
+    }
 
 }
 

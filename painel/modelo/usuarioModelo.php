@@ -8,9 +8,16 @@ class UsuarioModelo {
     private $telefone;
     private $email;
     private $senha;
-    private $status;
+    private $ativo;
     private $empresa;
+    private $dataCadastro;
+    private $horaCadastro;
+    private $tipoCadastro;
+    private $dataAlteracao;
+    private $horaAlteracao;
+    private $tipoAlteracao;
 
+    
     function getId() {
         return $this->id;
     }
@@ -35,45 +42,96 @@ class UsuarioModelo {
         return $this->senha;
     }
 
-    function getStatus() {
-        return $this->status;
+    function getAtivo() {
+        return $this->ativo;
     }
 
     function getEmpresa() {
         return $this->empresa;
     }
 
-    function setId($id){
+    function getDataCadastro() {
+        return $this->dataCadastro;
+    }
+
+    function getHoraCadastro() {
+        return $this->horaCadastro;
+    }
+
+    function getTipoCadastro() {
+        return $this->tipoCadastro;
+    }
+
+    function getDataAlteracao() {
+        return $this->dataAlteracao;
+    }
+
+    function getHoraAlteracao() {
+        return $this->horaAlteracao;
+    }
+
+    function getTipoAlteracao() {
+        return $this->tipoAlteracao;
+    }
+
+    function setId($id) {
         $this->id = $id;
     }
 
-    function setNome($nome){
+    function setNome($nome) {
         $this->nome = $nome;
     }
 
-    function setCpf($cpf){
+    function setCpf($cpf) {
         $this->cpf = $cpf;
     }
 
-    function setTelefone($telefone){
+    function setTelefone($telefone) {
         $this->telefone = $telefone;
     }
 
-    function setEmail($email){
+    function setEmail($email) {
         $this->email = $email;
     }
 
-    function setSenha($senha){
+    function setSenha($senha) {
         $this->senha = $senha;
     }
 
-    function setStatus($status){
-        $this->status = $status;
+    function setAtivo($ativo) {
+        $this->ativo = $ativo;
     }
 
-    function setEmpresa($empresa){
+    function setEmpresa($empresa) {
         $this->empresa = $empresa;
     }
+
+    function setDataCadastro($dataCadastro) {
+        $this->dataCadastro = $dataCadastro;
+    }
+
+    function setHoraCadastro($horaCadastro) {
+        $this->horaCadastro = $horaCadastro;
+    }
+
+    function setTipoCadastro($tipoCadastro) {
+        $this->tipoCadastro = $tipoCadastro;
+    }
+
+    function setDataAlteracao($dataAlteracao) {
+        $this->dataAlteracao = $dataAlteracao;
+    }
+
+    function setHoraAlteracao($horaAlteracao) {
+        $this->horaAlteracao = $horaAlteracao;
+    }
+
+    function setTipoAlteracao($tipoAlteracao) {
+        $this->tipoAlteracao = $tipoAlteracao;
+    }
+
+
+   
 
 }
 
