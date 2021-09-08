@@ -28,7 +28,7 @@ $obj = json_decode($sql->buscarTodosLocalEntrega());
                             <?php
                             foreach ($obj as $registro):
                                 ?>
-                                <tr class="<?= base64_encode($registro->id_local_entrega) ?>">
+                                <tr style="cursor: pointer;" class="<?= base64_encode($registro->id_local_entrega) ?>">
                                     <td><?= utf8_decode($registro->descricao) ?></td>
                                     <td><?= ($registro->ativo == "S" ? 'Ativo' : 'Inativo') ?></td>
                                 </tr>

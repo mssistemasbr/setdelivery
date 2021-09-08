@@ -32,7 +32,7 @@ $obj = json_decode($sql->buscarTodasEmpresa());
                             <?php
                             foreach ($obj as $registro):
                                 ?>
-                                <tr class="<?= base64_encode($registro->id_empresa) ?>">
+                                <tr style="cursor: pointer;" class="<?= base64_encode($registro->id_empresa) ?>">
                                     <td><?= utf8_decode($registro->nome_empresa) ?></td>
                                     <td><?= $registro->telefone_principal ?></td>
                                     <td><?= $registro->cidade ?></td>

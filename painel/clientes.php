@@ -29,8 +29,8 @@ $obj = json_decode($sql->buscarTodosClientes());
                         <tbody>
                             <?php
                             foreach ($obj as $registro) :
-                            ?>
-                                <tr class="<?= base64_encode($registro->id_cliente) ?>">
+                                ?>
+                                <tr style="cursor: pointer;" class="<?= base64_encode($registro->id_cliente) ?>">
                                     <td><?= utf8_decode($registro->nome_cliente) ?></td>
                                     <td><?= utf8_decode($registro->telefone_celular) ?></td>
                                     <td><?= utf8_decode($registro->email) ?></td>
@@ -44,4 +44,6 @@ $obj = json_decode($sql->buscarTodosClientes());
         </div>
     </div>
 </div>
+
+<div id="modal-endereco"></div>
 <!--/page content -->

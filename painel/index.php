@@ -18,6 +18,7 @@ include './controle/horarioFuncionamentoControle.php';
 include './controle/formaPagamentoControle.php';
 include './controle/pedidoControle.php';
 include './controle/clienteControle.php';
+include './controle/enderecoClienteControle.php';
 
 $usuarioControle = new UsuarioControle();
 if (!$usuarioControle->protegePagina()) :
@@ -168,9 +169,6 @@ else:
     $qtde5 = 0;
 endif;
 
-// Endereços do Cliente
-$enderecoCliente = new ClienteControle();
-$sqlendereco = json_decode($enderecoCliente->buscarEnderecoCliente(1));
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -248,7 +246,7 @@ $sqlendereco = json_decode($enderecoCliente->buscarEnderecoCliente(1));
                 background-image: url('img/loading.gif');
             }
 
-            #msg-sucess,#msg-error,#btn-confirm,#btn-alterar,#btn-ver-enderecos {
+            #msg-sucess,#msg-error,#btn-confirm,#btn-alterar,#btn-ver-enderecos,#btn-opcoes-pedido {
                 display: none;
             }
 
@@ -416,10 +414,10 @@ $sqlendereco = json_decode($enderecoCliente->buscarEnderecoCliente(1));
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="myModalLabel">Deseja excluir realmente este item ?</h4>
+                                <h4 class="modal-title" id="myModalLabel">Deseja excluir esse registro ?</h4>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-default" id="modal-btn-si">Sim</button>
+                                <button type="button" class="btn btn-danger" id="modal-btn-si">Sim</button>
                                 <button type="button" class="btn btn-primary" id="modal-btn-no">Não</button>
                             </div>
                         </div>
@@ -437,61 +435,11 @@ $sqlendereco = json_decode($enderecoCliente->buscarEnderecoCliente(1));
                     </div>
                 </div>
 
-                <!-- Modal para ver os endereços dos clientes -->
-                <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modal-ver-enderecos">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="myModalLabel">Meus Endereços</h4>
-
-
-
-                                <div class="table-responsive">
-                                    <table id="datatable-buttons" class="table table-striped table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>Descrição Endereço</th>
-                                                <th>Cep</th>
-                                                <th>Endereço</th>
-                                                <th>Número</th>
-                                                <th>Bairro</th>
-                                                <th>Cidade</th>
-                                                <th>Complemento</th>
-                                                <th>Ponto Referência</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            foreach ($sqlendereco as $registro) :
-                                                ?>
-                                                <tr class="<?= base64_encode($registro->id_endereco_cliente) ?>">
-                                                    <td><?= utf8_decode($registro->descricao_endereco) ?></td>
-                                                    <td><?= utf8_decode($registro->cep) ?></td>
-                                                    <td><?= utf8_decode($registro->endereco) ?></td>
-                                                    <td><?= utf8_decode($registro->numero) ?></td>
-                                                    <td><?= utf8_decode($registro->bairro) ?></td>
-                                                    <td><?= utf8_decode($registro->cidade) ?></td>
-                                                    <td><?= utf8_decode($registro->complemento) ?></td>
-                                                    <td><?= utf8_decode($registro->ponto_referencia) ?></td>
-                                                </tr>
-                                            <?php endforeach; ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" id="modal-btn-si">Novo Endereço</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- footer content -->
                 <footer>
                     <div class="pull-right">
-                        © setDelivery - 2021 © | <a href="https://www.setdelivery.com.br">site :setDelivery.com.br</a>
+                        © setDelivery - 2021 © | <a href="https://www.setdelivery.com.br">site : setDelivery.com.br</a>
                     </div>
                     <div class="clearfix"></div>
                 </footer>

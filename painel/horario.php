@@ -35,7 +35,7 @@ $obj = json_decode($sql->buscarTodosHorario());
                             <?php
                             foreach ($obj as $registro):
                                 ?>
-                                <tr class="<?= base64_encode($registro->id_horario) ?>">
+                                <tr style="cursor: pointer;" class="<?= base64_encode($registro->id_horario) ?>">
                                     <td><?= utf8_decode($registro->segunda) ?></td>
                                     <td><?= utf8_decode($registro->terca) ?></td>
                                     <td><?= utf8_decode($registro->quarta) ?></td>

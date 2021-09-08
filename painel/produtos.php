@@ -35,7 +35,7 @@ $obj = json_decode($sql->buscarTodosProdutos());
                                     $desTipoProduto = $o->descricao;
                                 endforeach;
                                 ?>
-                                <tr class="<?= base64_encode($registro->id_produto) ?>">
+                                <tr style="cursor: pointer;" class="<?= base64_encode($registro->id_produto) ?>">
                                     <td><?= utf8_decode($registro->nome_produto) ?></td>
                                     <td><?= $registro->valor_produto ?></td>
                                     <td><?= utf8_decode($desTipoProduto) ?></td>

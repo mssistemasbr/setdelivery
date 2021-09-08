@@ -29,7 +29,7 @@ $obj = json_decode($sql->buscarTodosTipoPizza());
                             <?php
                             foreach ($obj as $registro):
                                 ?>
-                                <tr class="<?= base64_encode($registro->id_tipo_pizza) ?>">
+                                <tr style="cursor: pointer;" class="<?= base64_encode($registro->id_tipo_pizza) ?>">
                                     <td><?= utf8_decode($registro->descricao) ?></td>
                                     <td><?= utf8_decode($registro->subdescricao) ?></td>
                                     <td><?= ($registro->ativo == "S" ? 'Ativo' : 'Inativo') ?></td>

@@ -7,7 +7,7 @@ class EnderecoControle extends Crud {
     public function inserirEndereco(EnderecoModelo $enderecoModelo) {
         $this->enderecoModelo = $enderecoModelo;
         try {
-            if ($this->enderecoModelo->getId() == ""):
+            if ($this->enderecoModelo->getId() == 0):
                 parent::inserir("endereco", "id,estado,cidade,bairro,endereco,numero,cep,cliente", $this->enderecoModelo->getId() . "|" .
                         $this->enderecoModelo->getEstado() . "|" .
                         $this->enderecoModelo->getCidade() . "|" .

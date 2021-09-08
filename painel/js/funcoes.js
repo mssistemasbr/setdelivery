@@ -14,7 +14,6 @@ $(document).ready(function ($) {
         on: 'Sim',
         off: 'Não'
     });
-
     $("#datepicker").datepicker({
         dateFormat: 'dd/mm/yy',
         dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
@@ -130,24 +129,24 @@ $(document).ready(function ($) {
     var delay = 200;
     var prevent = false;
     $("table tbody tr")
-        .on("click", function () {
-            $(this).removeClass("even");
-            $(this).removeClass("odd");
-            var tr = $(this);
-            timer = setTimeout(function () {
-                if (!prevent) {
-                    selecionar(tr.attr("class"), tr);
-                }
-                prevent = false;
-            }, delay);
-        })
-        .on("dblclick", function () {
-            var tr = $(this);
-            clearTimeout(timer);
-            prevent = true;
-            var id = tr.attr("class");
-            window.location.href = "?pg=" + $("#area").val() + '&id=' + id;
-        });
+            .on("click", function () {
+                $(this).removeClass("even");
+                $(this).removeClass("odd");
+                var tr = $(this);
+                timer = setTimeout(function () {
+                    if (!prevent) {
+                        selecionar(tr.attr("class"), tr);
+                    }
+                    prevent = false;
+                }, delay);
+            })
+            .on("dblclick", function () {
+                var tr = $(this);
+                clearTimeout(timer);
+                prevent = true;
+                var id = tr.attr("class");
+                window.location.href = "?pg=" + $("#area").val() + '&id=' + id;
+            });
     //Chamar Alterar dados
     $("#btn-alterar").click(function () {
         if (arrayId.length > 1) {
@@ -160,6 +159,7 @@ $(document).ready(function ($) {
     // Chamar confirm Excluir item 
     var modalConfirm = function (callback) {
 
+       
         $("#btn-confirm").on("click", function () {
             $("#mi-modal").modal('show');
         });
@@ -185,12 +185,12 @@ $(document).ready(function ($) {
                         $('#divCarregando').fadeIn();
                     },
                     url: 'view/' + caminho + '/excluir.php',
-                    data: { id: ids },
+                    data: {id: ids},
                     type: 'POST',
                     dataType: "html",
                     success: function (data) {
                         $('#divCarregando').fadeOut('slow');
-                        //alert(data);
+                        alert(data);
                         if (data !== 'erro') {
                             msgSucess("Cadastro excluido com sucesso!");
                             setTimeout(function () {
@@ -212,30 +212,54 @@ $(document).ready(function ($) {
     });
 
 
+
     // Modal para exibir os endereços dos clientes (clientes.php)
     $("#btn-ver-enderecos").click(function () {
-        $("#modal-ver-enderecos").modal('show');
-        return;
+        $.ajax({
+            beforeSend: function () {
+                //$('#divCarregando').fadeIn();
+            },
+            url: 'modal-endereco.php',
+            type: 'POST',
+            data: {idEndereco: arrayId[0]},
+            success: function (data) {
+                //alert(data);
+                $('#modal-endereco').html(data);
+                $('#modal-ver-enderecos').modal('show');
+                $('#datatable-buttons-endereco').dataTable({
+                    "info": true,
+                    "searching": true,
+                    language: {
+                        search: "",
+                        searchPlaceholder: "Filtrar..."
+                    },
+                    dom: 'Bfrtip',
+                });
+            }, error: function (request, status, error) {
+                var err = eval("(" + request.responseText + ")");
+                $('#divCarregando').fadeOut('slow');
+                msgError(err);
+            }
+        });
+        return false;
     });
-
-
 
     //Preencher cidade ao escolher estado
     $('#estado').change(function () {
         if ($(this).val()) {
             $('#divCarregando').fadeIn();
             $.getJSON(
-                'view/cliente/json_cidade.php?estado=' + $(this).val(),
-                function (j) {
-                    var options = '<option value="">Selecione</option>';
-                    for (var i = 0; i < j.length; i++) {
-                        options += '<option value="' +
-                            j[i].id + '">' +
-                            decodeURIComponent(escape(j[i].nome)) + '</option>';
-                    }
-                    $('#cidades').html(options).show();
-                    $('#divCarregando').fadeOut('slow');
-                });
+                    'view/cliente/json_cidade.php?estado=' + $(this).val(),
+                    function (j) {
+                        var options = '<option value="">Selecione</option>';
+                        for (var i = 0; i < j.length; i++) {
+                            options += '<option value="' +
+                                    j[i].id + '">' +
+                                    decodeURIComponent(escape(j[i].nome)) + '</option>';
+                        }
+                        $('#cidades').html(options).show();
+                        $('#divCarregando').fadeOut('slow');
+                    });
         }
     });
     $("#taxa").inputmask('currency', {
@@ -267,10 +291,8 @@ $(document).ready(function ($) {
             $('#lblkm').html("HORAS *");
         }
     });
-
     verifica_horario();
 });
-
 function msgSucess(msg) {
     $('#msg-sucess strong').text(msg);
     $('#msg-sucess').fadeIn('slow');
@@ -284,14 +306,17 @@ function msgError(msg) {
 }
 
 //selecionar e linhas para excluir e alterar
-var arrayId = [];
+var arrayId = [], arrayIdEnd = [], colorAnterior;
+
 function selecionar(id, tr) {
     if ($.inArray(id, arrayId) !== -1) {
         if (arrayId.indexOf(id) !== -1) {
             arrayId.splice(arrayId.indexOf(id), 1);
         }
-        tr.css('background', "#fff");
+        tr.css('background', colorAnterior);
     } else {
+        colorAnterior = tr.css('backgroundColor');
+
         arrayId.push(id);
         tr.css('background', "#000000");
     }
@@ -299,11 +324,38 @@ function selecionar(id, tr) {
     if (arrayId.length === 0) {
         $('#btn-alterar').hide();
         $('#btn-confirm').hide();
-        $('#btn-ver-enderecos').hide();  // botão para ver o endereço do cliente
+        $('#btn-ver-enderecos').hide(); // botão para ver o endereço do cliente
+        $('#btn-opcoes-pedido').show(); // botão para ver o endereço do cliente
     } else {
         $('#btn-alterar').show();
         $('#btn-confirm').show();
-        $('#btn-ver-enderecos').show();  // botão para ver o endereço do cliente
+        $('#btn-ver-enderecos').show(); // botão para ver o endereço do cliente
+        $('#btn-opcoes-pedido').show(); // botão para ver o endereço do cliente
+    }
+}
+
+function selecionarEnd(id, tr) {
+    if ($.inArray(id, arrayIdEnd) !== -1) {
+        if (arrayIdEnd.indexOf(id) !== -1) {
+            arrayIdEnd.splice(arrayIdEnd.indexOf(id), 1);
+        }
+        tr.css('background', colorAnterior);
+    } else {
+        colorAnterior = tr.css('backgroundColor');
+        arrayIdEnd.push(id);
+        tr.css('background', "#000000");
+    }
+
+    if (arrayId.length === 0) {
+        $('#btn-alterar').hide();
+        $('#btn-confirm').hide();
+        $('#btn-ver-enderecos').hide(); // botão para ver o endereço do cliente
+        $('#btn-opcoes-pedido').show(); // botão para ver o endereço do cliente
+    } else {
+        $('#btn-alterar').show();
+        $('#btn-confirm').show();
+        $('#btn-ver-enderecos').show(); // botão para ver o endereço do cliente
+        $('#btn-opcoes-pedido').show(); // botão para ver o endereço do cliente
     }
 }
 
@@ -374,7 +426,7 @@ function enableScrolling() {
 function abrirModal() {
     Height = $(document).height();
     Width = $(window).width();
-    $('#modal').css({ 'width': Width, 'height': Height });
+    $('#modal').css({'width': Width, 'height': Height});
     $('#modal').fadeIn();
 }
 
@@ -402,7 +454,7 @@ function alterarRevisao(id, url) {
     event.preventDefault();
     $.ajax({
         url: 'alt_revisao.php',
-        data: { id: id },
+        data: {id: id},
         type: 'POST',
         dataType: "html",
         success: function (retorno) {
@@ -415,7 +467,6 @@ function alterarRevisao(id, url) {
             link.click();
             delete link;
             window.location.reload();
-
         }, error: function (request, status, error) {
             var err = eval("(" + request.responseText + ")");
         }
@@ -434,4 +485,49 @@ function verifica_horario() {
         $("#bemVindo").html("Boa noite, ");
     }
 }
+
+function abrirEndereco() {
+    window.location.href = "?pg=" + $("#area-endereco").val() + '&idcliente=' + arrayId[0];
+}
+
+
+
+var timerEnd = 0;
+var delayEnd = 200;
+var preventEnd = false;
+var id_endereco_selecionado=0;
+function seleciona_endereco_cliente() {
+    $("#datatable-buttons-endereco tbody tr")
+            .on("click", function () {
+                $(this).removeClass("even");
+                $(this).removeClass("odd");
+                var tr = $(this);
+
+                timerEnd = setTimeout(function () {
+                    if (!preventEnd) {
+                        selecionarEnd(tr.attr("class"), tr);
+                        id_endereco_selecionado = tr.attr("class");
+                    }
+                    preventEnd = false;
+                }, delayEnd);
+            })
+            .on("dblclick", function () {
+                var tr = $(this);
+                clearTimeout(timerEnd);
+                preventEnd = true;
+                id_endereco_selecionado = tr.attr("class");
+                window.location.href = "?pg=" + $("#area-endereco").val() + '&idcliente=' + arrayId[0]+'&idendereco='+id_endereco_selecionado;
+            });
+}
+
+function alterar_endereco_cliente() {
+    window.location.href = "?pg=" + $("#area-endereco").val() + '&idcliente=' + arrayId[0]+'&idendereco='+id_endereco_selecionado;
+}
+
+function excluirEndereco() {
+    $('.btn-confirm').on('click',function(){
+        $("#modal-excluir-endereco").modal('show');
+    });
+}
+
 

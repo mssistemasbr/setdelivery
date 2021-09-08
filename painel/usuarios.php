@@ -31,7 +31,7 @@ $obj = json_decode($sql->buscarTodosUsuarios(1));
                             <?php
                             foreach ($obj as $registro):
                                 ?>
-                                <tr class="<?= base64_encode($registro->id) ?>">
+                                <tr style="cursor: pointer;" class="<?= base64_encode($registro->id) ?>">
                                     <td><?= utf8_decode($registro->nome) ?></td>
                                     <td><?= utf8_decode($registro->telefone) ?></td>
                                     <td><?= utf8_decode($registro->email) ?></td>
